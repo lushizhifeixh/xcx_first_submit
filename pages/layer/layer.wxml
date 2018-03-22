@@ -1,0 +1,96 @@
+<import src="../../utils/wetoast.wxml"/>
+<view class="container">
+  <!-- 头部导航 -->
+  <view class="head">
+      <view class="head-li" data-type='sale' bindtap='headSwitch'>
+           <view class="head-text  {{typeNum==1?'head-color':''}}">商品</view>
+      </view>
+      <view class="head-li" data-type='lease' bindtap='headSwitch'>
+           <view class="head-text {{typeNum==2?'head-color':''}}">商户</view>
+      </view>
+      <view class="edit-btn {{editBtnComplete==1?'edit-btn-before':''}}" wx:if="{{editBtnShow}}" bindtap='editTap'>{{editText}}</view>
+  </view>
+  <!-- 出售列表 -->
+  <scroll-view wx:if="{{saleListShow}}" class="sale-list list-con" scroll-x="false" scroll-y="true">
+      <view class="list-container" wx:key="item" wx:for="{{collectionSale}}" wx:for-index="index">
+        <view bindtap='listChooseTap' wx:if="{{listChooseShow}}" class="item-choose" data-uid="{{item.CASE_ID}}"
+              data-index="{{index}}" data-list-select="collectionSale[{{index}}].select" data-select="{{item.select}}">
+          <view class="{{item.select==true ? 'list-chooseing':'list-choose'}}"></view>
+        </view>
+        <navigator class="item-con" url="/pages/detail/detail?caseId={{item.CASE_ID}}&caseType=1&cityId={{item.CITY_ID}}&reSource=1">
+          <view class="item-img">
+            <image src="{{item.THUMB_URL}}"></image>
+          </view>
+          <view class="item-infoa">
+            <view class="p-title">{{item.BUILD_NAME}} {{item.HOUSE_SUBJECT}}</view>
+            <view class="p-wrap">
+              <view class="p-wrap-addr">{{item.BUILD_NAME}}-{{item.REGION_SECTION}}</view>
+              <view class="p-wrap-money">{{item.PRICE_INFO/1}}万</view>
+            </view>
+            <view class="p-wrap">
+              <view class="p-wrap-area">{{item.roomInfo==null?'':item.roomInfo}} {{item.SALE_AREA}}平米</view>
+              <view class="p-wrap-price">{{item.HOUSE_UNIT_PRICE}}元/㎡</view>
+            </view>
+            <view class="item-tj" wx:if="{{item.houseTags}}">
+              <block wx:for="{{item.houseTags}}" wx:for-index="idx" wx:for-item="tag">
+                <text class="tj-text {{idx==0?'blue':idx==1?'green':'red'}}">{{tag}}</text>
+              </block>
+            </view>
+          </view>
+        </navigator>
+      </view>
+  </scroll-view>
+  <!-- 出租列表 -->
+  <scroll-view wx:if="{{leaseListShow}}" class="lease-list list-con" scroll-x="false" scroll-y="true">
+    <view class="list-container" wx:key="item" wx:for="{{collectionLease}}" wx:for-index="index">
+      <view bindtap='listChooseTap' wx:if="{{listChooseShow}}" data-uid="{{item.LEASE_ID}}" class="item-choose"
+            data-index="{{index}}" data-list-select="collectionLease[{{index}}].select" data-select="{{item.select}}">
+        <view class="{{item.select==true ? 'list-chooseing':'list-choose'}}"></view>
+      </view>
+      <navigator class="item-con" url="/pages/detail/detail?caseId={{item.LEASE_ID}}&caseType=2&cityId={{item.CITY_ID}}&reSource=1">
+        <view class="item-img">
+          <image src="{{item.THUMB_URL}}">
+          </image>
+        </view>
+        <view class="item-infoa">
+          <view class="p-title">{{item.BUILD_NAME}} {{item.HOUSE_SUBJECT}}</view>
+          <view class="p-wrap">
+            <view class="p-wrap-addr">{{item.REGION_NAME}}-{{item.SECTION_NAME}}</view>
+            <view class="p-wrap-money">{{item.PRICE_INFO/1}}元/月</view>
+          </view>
+          <view class="p-wrap">
+            <view class="p-wrap-area">{{item.roomInfo==null?'':item.roomInfo}} {{item.LEASE_AREA}}平米</view>
+          </view>
+          <view class="item-tj" wx:if="{{item.houseTags}}">
+            <block wx:for="{{item.houseTags}}" wx:for-index="idx" wx:for-item="tag">
+              <text class="tj-text {{idx==0?'blue':idx==1?'green':'red'}}">{{tag}}</text>
+            </block>
+          </view>
+        </view>
+      </navigator>
+    </view>
+  </scroll-view>
+ 
+<!-- 没有数据 -->
+<view class="no-data" wx:if="{{nodataShowSale}}">
+  <view class="collect-empty"></view>
+  <view class="nodata-txt">{{nodataText}}</view>
+</view>
+<view class="no-data" wx:if="{{nodataShowLease}}">
+  <view class="collect-empty"></view>
+  <view class="nodata-txt">{{nodataText}}</view>
+</view>
+<view class="no-data" wx:if="{{nodataShowAgent}}">
+  <view class="collect-empty"></view>
+  <view class="nodata-txt">{{nodataText}}</view>
+</view>
+<!-- 没有数据 -->
+<!-- 首页按钮 -->
+<view class="float-box" bindtap='goIndex'></view>
+<!-- 底部 -->
+<view class="footer" wx:if="{{footShow}}">
+  <view bindtap='allChooseTap' class="allchoose-btn {{allChooseIcon==true?'choosed-before':'chooseing-before'}}">全选</view>
+  <view bindtap='deleteEvent' class="delete-btn">删除</view>
+</view>
+</view>
+<template is="wetoast" data="{{...__wetoast__}}"/>

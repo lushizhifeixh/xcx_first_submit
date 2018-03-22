@@ -1,0 +1,262 @@
+@import "../../index/index.wxss"
+@import "../searchCompResult/searchCompResult.wxss"
+@import "../storeDetail/storeDetail.wxss"
+.goodsDetailBanner {
+  width: 750rpx;
+  height: 748rpx;
+}
+.fixed_shopping_cart{
+  position: fixed;
+  right: 30rpx;
+  top:30rpx;
+  width:84rpx;
+  height:80rpx;
+}
+.circle_cart_num{
+  width:40rpx;
+  height: 40rpx;
+  border-radius: 50% ;
+  background: #FF4949;
+  position: absolute;
+  font-family: PingFang-SC-Medium;
+  font-size: 20rpx;
+  color: #FFFFFF;
+  letter-spacing: -0.24px;
+  text-align:center;
+  line-height:40rpx;
+  right:-13rpx;
+  top:1rpx;
+  background:rgba(255,0,0,0.7);
+  border:none;
+}
+.container {
+  bottom: 102rpx;
+  position: relative;
+}
+
+.goodsDetailBanner image {
+  height: 100%;
+}
+
+.banner_carousel .wx-swiper-dots {
+  position: absolute;
+  left: 350rpx;
+  bottom: 13rpx;
+}
+
+.banner_carousel .wx-swiper-dot {
+  width: 15rpx;
+  height: 15rpx;
+  margin-left: 10rpx;
+}
+
+.banner_carousel .wx-swiper-dot-active {
+  width: 30rpx;
+  height: 15rpx;
+}
+
+.goodsAttr {
+  width: 720rpx;
+  height: 384rpx;
+  padding-left: 30rpx;
+  background: #fff;
+  overflow: hidden;
+}
+
+.goodsAttr_top {
+  height: 150rpx;
+}
+
+.similarity_goods {
+  width: 725rpx;
+  padding: 0 5rpx 0 20rpx;
+}
+
+.similarity_goods_tit {
+  height: 74rpx;
+  box-sizing: border-box;
+  padding-left: 300rpx;
+}
+
+.similarity_goods_tit:before {
+  position: absolute;
+  left: 0rpx;
+  top: 43rpx;
+  content: '';
+  width: 280rpx;
+  height: 1rpx;
+  background: #d9e0e9;
+}
+
+.similarity_goods_tit:after {
+  position: absolute;
+  right: 14rpx;
+  top: 43rpx;
+  content: '';
+  width: 290rpx;
+  height: 1rpx;
+  background: #d9e0e9;
+}
+
+/*similarity_list*/
+
+.similarity_list {
+  flex-wrap: wrap;
+}
+
+.cate_box_li {
+  width: 232rpx;
+  height: 372rpx;
+  flex-direction: column;
+  border-bottom: none;
+  margin-right: 9rpx;
+  padding: 10rpx 0;
+}
+
+.cate_box_li image {
+  width: 232rpx;
+  height: 220rpx;
+}
+
+.search_result_words {
+  width: 232rpx;
+  height: 152rpx;
+  padding: 0 24rpx;
+  margin-left: 0;
+  box-sizing: border-box;
+}
+
+/*底部进店  */
+
+.fixed_bottom_detail {
+  position: fixed;
+  width: 100%;
+  display: flex;
+  height: 102rpx;
+  bottom: 0;
+}
+
+.behavior_detail {
+  width: 306rpx;
+  display: flex;
+}
+
+.behavior_detail view {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 44%;
+  color: #475669;
+}
+
+.behavior_detail view image {
+  margin: 15rpx 0;
+}
+
+.add_shopping_car {
+  width: 214rpx;
+  background: #f7ba2a;
+}
+
+.promptly_buy {
+  width: 230rpx;
+  background: #37c65c;
+}
+
+.add_shopping_car, .promptly_buy {
+  text-align: center;
+  line-height: 102rpx;
+  color: #fff;
+}
+
+/*购物车弹框css  */
+
+.mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+  background: #1f2d3d;
+  z-index: 9000;
+}
+
+.modalDlg {
+  width: 100%;
+  height: 508rpx;
+  position: fixed;
+  bottom: 0;
+  z-index: 9999;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+.carts_detail {
+  width: 710rpx;
+  height: 412rpx;
+  margin: 0 auto;
+}
+
+.carts_detail_top {
+  width: 710rpx;
+  height: 262rpx;
+  display: flex;
+  padding-top: 22rpx;
+  box-sizing: border-box;
+  justify-content: space-between;
+  border-bottom: 1rpx solid #f0f1f1;
+}
+
+.cart_center_text {
+  width: 446rpx;
+  padding-top: 88rpx;
+  box-sizing: border-box;
+}
+/*carts_detail_bot  */
+
+.detail_num{
+  width: 106rpx;
+  height: 64rpx;
+}
+.good_num{
+  width: 64rpx;
+  height: 64rpx;
+  text-align: center;
+  line-height: 64rpx;
+  color: #fff;
+}
+.no_minus_color{
+  background: #C0CCDA;
+}
+.add_color{
+  background: #475669;
+}
+.cart_config {
+  width: 750rpx;
+  height: 96rpx;
+  line-height: 96rpx;
+  background: #37c65c;
+}
+.Effect_color{
+  background: #99A9BF;
+  margin-left:3rpx;
+}
+
+@keyframes Layerappear {
+  from {
+    bottom: -330rpx;
+  }
+
+  to {
+    bottom: 0;
+  }
+}
+
+.Layertoappear {
+  animation: Layerappear 0.2s ease-out;
+}

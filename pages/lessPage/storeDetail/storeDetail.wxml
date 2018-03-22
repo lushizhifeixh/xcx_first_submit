@@ -1,0 +1,98 @@
+<view class="page" id="page">
+  <view class="page-bottom" id="page">
+    <view class="store_header colfff" style="background:url({{headerBackground}})">
+      <view class="header_top disFlex_single">
+        <text></text>
+        <block>
+          <view wx:if="{{isStoreShow}}" class="headerTop_storeName overEllis fs36">{{storeHeaderObject.sellerName}}</view>
+          <view wx:else class="headerTop_storeName overEllis fs36"></view>
+        </block>
+        <image src="../../../images/index/store/store_phone.png" style="width:40rpx; height:40rpx;" bindtap='phoneRelation'></image>
+      </view>
+      <view class="header_bot fs24 disFlex_single family_thin">
+        <view class="disFlex_single">
+          <image src="{{storeHeaderObject.picstr}}" style="width: 116rpx; height:116rpx;" mode="scaleToFill" class=""></image>
+          <view class="search_result_words store_result_word relative">
+            <text class="fs36 disBlock mb6 line_height40 family_Bold overEllis">{{storeHeaderObject.sellerName}}</text>
+            <view class="mb6">
+              <view style="width:20rpx; height:32rpx;position:absolute;top:50rpx;" class="disline_Block" bindtap='goSotreMarkMap'>
+                <image class="mark_distance_location" src="../../../images/index/location.png" style="width:20rpx; height:24rpx;"></image>
+              </view>
+              <text class="overEllis disBlock ml30">{{storeHeaderObject.address}}</text>
+            </view>
+            <view class="store_evalute">
+              店铺评价：
+              <block wx:for="{{starArray}}" wx:key="*this">
+                <image src="../../../images/index/store/store_evalue.png" style="width:24rpx; height:24rpx;margin-right:4rpx;"></image>
+              </block>
+            </view>
+          </view>
+        </view>
+        <!--  未收藏状态  -->
+        <view class="collect_store disFlex mt20" catchtap="collectStore" wx-if="{{!collected}}">
+          <image class="mr10" src="../../../images/index/store/collect_store_ago.png" style="width:32rpx; height:32rpx;"></image>
+          <text style='height:24rpx;'>收藏</text>
+        </view>
+
+        <!--  已收藏状态  -->
+        <view style="border:0;background:linear-gradient(-45deg,#FFD943 0,#FF6247 100%)" class="collect_store disFlex_row_around mt20" catchtap="callStore" wx-if="{{collected}}">
+          <text>已收藏</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="page-top" bindtouchmove="tap_drag" bindtouchend="tap_end" bindtouchstart="tap_start" style="top:{{posTop}}rpx">
+    <view class="page_main disFlex_column">
+      <view class="banner_search">
+        <icon type="search" size="18" />
+        <input placeholder="请输入商品进行搜索" placeholder-style="color:#99a9bf" bindinput="searchSingleGoods" value='{{input_value}}' />
+        <icon type="clear" size="18" color="#c0ccda" style="width:58rpx;" catchtap="clearInputValue" hidden="{{!storeInputValue}}" />
+      </view>
+      <view class="search_content disFlex" hidden="{{!storeExit}}">
+        <!-- left-bar -->
+        <scroll-view class="categroy_left mr10 fs28" scroll-y>
+          <view wx:for="{{category}}" wx:key="index" data-id="{{item.sortId}}" data-index="{{index}}" bindtap="switchTab" class="overEllis cate_list {{curIndex === index?'on':''}}">{{item.name}}</view>
+        </scroll-view>
+        <!-- right-content -->
+        <scroll-view class="categroy_right" scroll-y="{{isScroll}}" scroll-into-view="{{toView}}" scroll-with-animation="false">
+          <view class="cate_box" scroll-y style="bottom:{{posBot}}rpx">
+            <block wx:if="{{isStoreGoods}}">
+              <block wx:for="{{cateBoxListArray}}" wx:key="*this">
+                <view class="cate_box_li fs24 col333" bindtap='go_storeGoods' data-storegooditem="{{item.guid}}">
+                  <image src="{{item.slideImgs}}" style="width: 168rpx; height:168rpx;" mode="scaleToFill" class=""></image>
+                  <view class="search_rest_word">
+                    <text class="fs28 disBlock mb10 overEllis">{{item.title}}</text>
+                    <text class="fs28 disBlock mb10 overEllis">{{item.sellingPoint}}</text>
+                    <view class="property_goods col666 mb10">
+                      <text wx:for="{{minFeatureArray}}" wx:key="*this">{{item.propvalue}}</text>
+                    </view>
+                    <view class="mb10 fs24">
+                      <view class="disline_Block overEllis" style='width:180rpx;'>
+                        <text class="colFF6328 fs36">{{item.price}}</text>
+                        <text class="col666"> 元/{{item.pdtFormat}}</text>
+                      </view>
+                      <text class="col999 disline_Block overEllis" style='width:179rpx;'> 今日已售 {{item.saleAmount}} 笔</text>
+                    </view>
+                    <view class="">
+                      <text class="col999 disBlock mb10 overEllis" style="width:300rpx;">产自{{item.sourcePlace}}</text>
+                    </view>
+                  </view>
+                </view>
+              </block>
+            </block>
+            <block wx:else>
+              <view style="height:831rpx;">
+                <image src="../../../images/goods/none_searchResult.png" style="width: 160rpx; height:160rpx;margin-left:calc(50% - 96rpx);" mode="scaleToFill" class="mt100"></image>
+                <view class="fs28 col666 textCenter mt40">抱歉,暂时没有找到"{{input_value}}"的相关结果</view>
+              </view>
+            </block>
+          </view>
+        </scroll-view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class='fixed_shopping_cart' hidden="{{!isLoginNum}}" bindtap='goCartListPage'>
+  <image src="../../../images/goods/store_shoppingCart.png" style="width: 80rpx; height:80rpx;" mode="scaleToFill"></image>
+  <view class="circle_cart_num">{{storeCartNum}}</view>
+</view>

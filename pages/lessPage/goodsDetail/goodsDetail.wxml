@@ -1,0 +1,131 @@
+<block wx-if="{{isGoodEffect}}">
+  <scroll-view class="container" scroll-y="true">
+    <!--轮播  -->
+    <view class="goodsDetailBanner">
+      <swiper class="banner_carousel" indicator-dots autoplay indicator-color="rgba(255, 255, 255, .6)" indicator-active-color="#1F2D3D" interval="3000" duration="1000" circular current="0">
+        <swiper-item wx:for="{{imgUrls}}" wx:key="*this">
+          <image src="{{item}}" />
+        </swiper-item>
+      </swiper>
+    </view>
+    <!--属性 -->
+    <view class="goodsAttr">
+      <!--top  -->
+      <view class="goodsAttr_top borderBot_c0ccda">
+        <view class="mb20 fs28 mt20">
+          <text class="colFF6328 fs48">{{getIndexObject.price}} </text>
+          <text class="col333"> 元/{{getIndexObject.pdtFormat}}</text>
+        </view>
+        <view class="disFlex_row fs24 mb10">
+          <text class="col333">{{getIndexObject.minNum}} 斤起订</text>
+          <text class="col999 mr30">日销{{getIndexObject.saleAmount}}</text>
+        </view>
+      </view>
+      <!-- bottom -->
+      <view class="goodsAttr_bottom fs24">
+        <text class="col333 disBlock fs32 mt20 mb10 overEllis">{{getIndexObject.title}}</text>   
+        <text class="col333 disBlock fs28 mt20 mb10 overEllis">{{getIndexObject.sellingPoint}}</text>     
+        <view class="property_goods col888 mb10">
+          <text wx:for="{{getIndexObject.otherPropList}}" wx:key="*this">{{item.propvalue}}</text>
+        </view>
+        <text class="fs24 col666 disBlock mb10 overEllis">产自{{getIndexObject.sourcePlace}}</text>
+      </view>
+    </view>
+    <!-- 相似商品 -->
+    <view class="similarity_goods" wx:if="{{hasGoosSimly}}">
+      <view class="similarity_goods_tit relative disFlex fs24 col666">相似商品</view>
+      <view class="similarity_list disFlex">
+        <block wx:for="{{cateBoxListArray}}" wx:key="*this">
+          <view class="cate_box_li" bindtap='go_goodsSimly' data-goodsimlyitem="{{item.guid}}">
+            <image src="{{item.slideImgs}}" style="width: 232rpx; height:220rpx;" mode="scaleToFill" class=""></image>
+            <view class="search_result_words bgfff fs24">
+              <text class="col333 disBlock mb4 mt5 overEllis">{{item.title}}</text>
+              <text class="col333 disBlock mb6 overEllis">{{item.sellingPoint}}</text>
+              <view class="mb4 overEllis">
+                <text class="colFF6328">{{item.price}}</text>
+                <text class="col666">  元/{{item.pdtFormat}}</text>
+              </view>
+              <text class="col999 disBlock overEllis mb6">{{item.sellerName}}</text>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </scroll-view>
+  <view class="fixed_bottom_detail fs24">
+    <view class="behavior_detail bgfff">
+      <!--1  -->
+      <view bindtap='goThisStore'>
+        <image src="../../../images/index/goodStore/enter_store.png" style="width:30rpx;height:24rpx;"></image>
+        <text>进店</text>
+      </view>
+      <!--未收藏状态  -->
+      <view wx-if="{{!Goodcollected}}" catchtap="collectGoods">
+        <image src="../../../images/index/goodStore/no_collect.png" style="width:34rpx;height:30rpx;"></image>
+        <text>收藏</text>
+      </view>
+      <!-- 已收藏状态 -->
+      <view wx-if="{{Goodcollected}}" catchtap="callGoods">
+        <image src="../../../images/index/goodStore/has_collect.png" style="width:34rpx;height:30rpx;"></image>
+        <text>已收藏</text>
+      </view>
+    </view>
+    <view class="add_shopping_car fs28" bindtap="addShopCart">加入购物车</view>
+    <view class="promptly_buy fs28" catchtap='buyAdonce'>立即购买</view>
+  </view>
+  <!--点击加入购物车__弹出弹框  -->
+  <view class="mask" id="wrapLayer" catchtouchmove="preventTouchMove" wx:if="{{showModal}}" catchtap='off_layer'></view>
+  <view class="modalDlg Layertoappear" wx:if="{{showModal}}">
+    <view class="carts_detail">
+      <view class="carts_detail_top">
+        <!--1  -->
+        <image src="{{LayermainImg}}" style="width: 200rpx; height:200rpx;" mode="scaleToFill"></image>
+        <!--2  -->
+        <view class="cart_center_text fs32">
+          <view>
+            <text class="colFF6328">{{getIndexObject.price}}</text>
+            <text class="col666"> 元/{{getIndexObject.pdtFormat}}</text>
+          </view>
+          <view class="fs28 col333 mt30 Letter_space">{{getIndexObject.minNum}}斤起订</view>
+        </view>
+        <!--3  -->
+        <icon type="clear" size="20" color="#c0ccda" style="width:44rpx;height:44rpx;" catchtap="offDialog" />
+      </view>
+      <view class="carts_detail_bot disFlex_single">
+        <text class="fs28 col333 Letter_space mt40">订购数量</text>
+        <view class="num_operation disFlex_only mr20 mt30">
+          <view catchtap="deductGoodsNum" class="good_num_minus good_num fwBold{{cartInputValue>_cartInputValue?' add_color':' no_minus_color'}}"> - </view>
+          <input class="detail_num textCenter" value='{{cartInputValue}}' type='digit' bindinput="cartNumInput" bindblur="blurInput" />
+          <view catchtap="addGoodsNum" class="good_num_add good_num add_color"> + </view>
+        </view>
+      </view>
+    </view>
+    <view class="cart_config fs28 colfff Letter_space textCenter" catchtap="start_addCart">确定</view>
+  </view>
+  <view class='fixed_shopping_cart' bindtap='goCartListPage' hidden="{{!isLoginNum}}">
+    <image src="../../../images/goods/cartGoodDtail.png" style="width: 80rpx; height:80rpx;" mode="scaleToFill"></image>
+    <view class="circle_cart_num">{{storeCartNum}}</view>
+  </view>
+</block>
+<!--商品失效的页面  -->
+<block wx:else>
+  <view class="fixed_bottom_detail fs24">
+    <view class="behavior_detail bgfff">
+      <!--1  -->
+      <view>
+        <image src="../../../images/index/goodStore/enter_store.png" style="width:30rpx;height:24rpx;"></image>
+        <text>进店</text>
+      </view>
+      <view>
+        <image src="../../../images/index/goodStore/no_collect.png" style="width:34rpx;height:30rpx;"></image>
+        <text>收藏</text>
+      </view>
+    </view>
+    <view class="add_shopping_car fs28 Effect_color">加入购物车</view>
+    <view class="promptly_buy fs28 Effect_color">立即购买</view>
+  </view>
+  <view class='fixed_shopping_cart' bindtap='goCartListPage' hidden="{{!isLoginNum}}">
+    <image src="../../../images/goods/cartGoodDtail.png" style="width: 80rpx; height:80rpx;" mode="scaleToFill"></image>
+    <view class="circle_cart_num">{{storeCartNum}}</view>
+  </view>
+</block>

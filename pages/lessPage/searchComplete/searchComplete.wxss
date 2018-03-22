@@ -1,0 +1,99 @@
+@import "../../index/index.wxss"
+.swiper-tab {
+  width: 100%;
+  border-bottom: 1rpx solid #D9E0E9;
+  line-height: 76rpx;
+  padding-left: 50rpx;
+  box-sizing: border-box;
+}
+
+.swiper-tab-list {
+  display: inline-block;
+  width: 120rpx;
+  color: #99a9bf;
+  margin-right: 140rpx;
+  text-align: center;
+  margin-bottom: -1rpx;
+}
+
+.on {
+  color: #37c65c;
+  border-bottom: 6rpx solid #37c65c;
+}
+
+.banner_search {
+  background: #e6eff8;
+  width: 544rpx;
+  position: relative;
+  top: 0;
+  left: 0;
+  border: 1rpx solid #e6eff8;
+}
+
+.searGood_header {
+  width: 750rpx;
+  height: 90rpx;
+  padding: 20rpx 40rpx 30rpx 45rpx;
+  box-sizing: border-box;
+}
+
+.title_Name {
+  width: 750rpx;
+  height: 60rpx;
+  padding: 10rpx 30rpx 5rpx 50rpx;
+  background: #efefef;
+  box-sizing: border-box;
+}
+
+/*热门搜索*/
+
+.searGood_hot {
+  width: 750rpx;
+  padding: 25rpx 30rpx 0 30rpx;
+  min-height: 185rpx;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.hot_list {
+  min-width: 70rpx;
+  height: 63rpx;
+  text-align: center;
+  line-height: 63rpx;
+  background: #e6eff8;
+  border-radius: 29rpx;
+  margin: 0 24rpx 24rpx 0;
+  display: inline-block;
+  padding: 0 20px;
+}
+
+/*搜索历史*/
+
+.searGood_history {
+  width: 750rpx;
+  padding: 0 0 0 50rpx;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.history_list {
+  height: 73rpx;
+  line-height: 73rpx;
+  text-indent: 1em;
+}
+
+.history_img_right {
+  right: 34rpx;
+}
+
+.click_skip {
+  width: 88%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.click_text {
+  width: 20%;
+  height: 70rpx;
+}

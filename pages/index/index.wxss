@@ -1,0 +1,256 @@
+/*------------banner-----------------  */
+
+.index_banner {
+  width: 750rpx;
+  height: 296rpx;
+  position: relative;
+}
+
+/*--搜索--  */
+
+.banner_search {
+  width: 634rpx;
+  height: 56rpx;
+  position: absolute;
+  top: 70rpx;
+  left: 48rpx;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0px 0px 3px #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 20rpx;
+}
+
+.banner_search icon {
+  width: 80rpx;
+}
+
+.banner_search input {
+  width: 570rpx;
+  font-size: 26rpx;
+}
+
+.banner_word {
+  position: absolute;
+  top: 185rpx;
+  left: 48rpx;
+}
+
+/*---轮播 --- */
+
+.banner_carousel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.banner_carousel swiper-item image {
+  width: 100%;
+}
+
+.banner_carousel .wx-swiper-dots {
+  position: absolute;
+  left: 590rpx;
+  bottom: 13rpx;
+}
+
+.banner_carousel .wx-swiper-dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  margin-left: 20rpx;
+  justify-content: space-around;
+}
+
+.banner_carousel .wx-swiper-dot-active {
+  width: 50rpx;
+  height: 20rpx;
+  border-radius: 10rpx;
+}
+
+.distance_last {
+  right: 0;
+}
+
+/*---------------------banList----------------*/
+
+/*--banlist--*/
+
+.banlist {
+  width: 678rpx;
+  height: 360rpx;
+  padding: 0 32rpx;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.banlist_classify {
+  width: 168rpx;
+  height: 180rpx;
+  box-sizing: border-box;
+  padding-top: 30rpx;
+}
+
+/*--non_payment--*/
+
+.non_payment {
+  width: 750rpx;
+  height: 137rpx;
+}
+
+/* recommend */
+
+.recommend {
+  height: auto;
+  margin-bottom: 20rpx;
+}
+
+/*recommend_tit*/
+
+.recommend_tit {
+  width: 680rpx;
+  padding: 0 40rpx 0 30rpx;
+  height: 88rpx;
+  display: flex;
+  border-bottom:1rpx solid #f0f1f1;
+
+  justify-content: space-between;
+  align-items: center;
+}
+
+.recommend_tit .tit_left {
+  padding-left: 18rpx;
+  height: 30rpx;
+  line-height: 30rpx;
+  color: #1f2d3d;
+  border-left: 8rpx solid #f69;
+}
+
+/*recommend_cont*/
+
+.recommend_cont {
+  display: flex;
+  width: 720rpx;
+  padding: 20rpx 0 0 30rpx;
+  /* border-bottom:1rpx solid #c0ccda; */
+}
+
+.mark_distance_location {
+  display: inline-block;
+  width: 20rpx;
+  height: 20rpx;
+}
+
+.recommend_near {
+  height: 165rpx;
+}
+
+.recommend_refer {
+  height: 232rpx;
+}
+
+/*recommend_merial*/
+
+.recommend_merial {
+  height: auto;
+  flex-direction: column;
+}
+
+/*recommend_merial_tit */
+
+.recommend_merial_tit {
+  height: 75rpx;
+  display: flex;
+}
+
+.recommend_merial_cont {
+  width: 100%;
+  padding-right: 12rpx;
+  box-sizing: border-box;
+  height: auto;
+  flex-wrap: wrap;
+  margin-bottom: 20rpx;
+}
+
+.merial_cont_li {
+  width: 230rpx;
+  height: 230rpx;
+  box-sizing: border-box;
+  position: relative;
+  margin-right: 6rpx;
+  margin-bottom: 6rpx;
+}
+
+.posit_word {
+  width: 100%;
+  height: 40rpx;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.6);
+  bottom: 0;
+  color: #000;
+  padding:0 9rpx;
+  box-sizing: border-box;
+}
+
+.recommend_bot100 {
+  margin-bottom: 35rpx !important;
+}
+
+.none_recommend {
+  height: 200rpx;
+  position: relative;
+  box-sizing: border-box;
+  padding: 35rpx 80rpx 0 80rpx;
+  font-size: 30rpx;
+  color: #666;
+}
+
+.none_recommend image {
+  width: 272px;
+  height: 58px;
+}
+
+.none_recommend view {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  top: 37%;
+  left: 0;
+  letter-spacing: 1rpx;
+}
+/*朦层  */
+.index_wrap_layer{
+  width: 100%;
+  height: 100%;
+  background: rgba(31,45,61,0.50);
+  position: fixed;
+  left:0;
+  top:0;
+}
+.layer_content{
+  width: 574rpx;
+  height:184rpx;
+  background-image: linear-gradient(-90deg, #37C65C 0%, #37C699 100%);
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.12), 0 2px 16px 0 rgba(0,0,0,0.12);
+  border-radius: 6px;
+  position: absolute;
+  left:0;
+  right:0;
+  bottom: 0;
+  top: 0;
+  margin:auto;
+  box-sizing: border-box;
+  padding:40rpx 30rpx 0 60rpx;
+}
+.know_calc{
+  width: 128rpx;
+  height:60rpx;
+  background: #FFFFFF;
+  border-radius: 100px;
+  text-align: center;
+  line-height: 60rpx;
+  position:absolute;
+  right:30rpx;
+  bottom:16rpx;
+}

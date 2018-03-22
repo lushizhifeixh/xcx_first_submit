@@ -1,0 +1,80 @@
+<view>
+  <view class="view_top_fixed">
+    <view class="marks_name_direction disFlex_row fs36 col333 bgfff fwBold">
+      <text>{{markHeader_Object.marketName}}</text>
+      <view style="width:40rpx; height:44rpx;" class="disline_Block" bindtap='goMarkMap'>
+        <image class="mark_distance_location" src="../../../images/index/goodStore/market_dire.png" style="width:40rpx; height:44rpx;"></image>
+      </view>
+    </view>
+    <view class="searGood_header borderBot_c0ccda bgfff">
+      <view class="banner_search search_Result">
+        <icon type="search" size="20" />
+        <input placeholder="请输入商品进行搜索" placeholder-style="color:#99a9bf" bindinput="searchSingleGoods" value='{{input_value}}' />
+        <icon type="clear" size="18" color="#c0ccda" style="width:58rpx;" catchtap="clearInputValue" hidden="{{!markDetailInputValue}}" />
+      </view>
+    </view>
+    <!--tab切换的title -->
+    <view class="categroy_left fs28" scroll-x style="width:100%;overflow-x:scroll;overflow-y:hidden;">
+      <block wx:for="{{category}}" wx:key="index">
+        <view data-id="{{item.sortId}}" data-index="{{index}}" bindtap="switchTab" class="cate_list {{curIndex === index?'on':''}}">{{item.name}}</view>
+      </block>
+    </view>
+    <!--价格,销量----的筛选 -->
+    <!-- <view class="search_Result_condition disFlex_row col999 fs28" style="{{isFixedStyle}}"> -->
+    <view class="search_Result_condition disFlex_row col999 fs28">
+      <view class="padding_left70" bindtap="goodsPriceVolume" id="{{price_sort}}" style="{{goodsSaleColor_price}}">
+        <text class="padding_right20">价格</text>
+        <image src="{{goodsPriceImg}}" class="" style="width:16rpx;height:20rpx;"></image>
+      </view>
+      <view style="{{goodsSaleColor_volume}}" bindtap="goodsSaleVolume">销量</view>
+      <view class="padding_right50" bindtap="showDialog" data-statu="open"></view>
+    </view>
+  </view>
+  <!------ 筛选结果的内容显示--- -->
+  <scroll-view class="" scroll-y style="height:{{winHeight - 195}}px;padding-top:390rpx;" bindscrolltolower="loadMoreData">
+    <view wx:if="{{isgoods}}" class='data_container'>
+      <block wx:for="{{goodSiftArray}}" wx:key="*this">
+        <view class="search_result_li disFlex_only mb10 " bindtap='go_MarkGoods' data-marksgooditem="{{item.gpf_product_pid}}">
+          <image src="{{item.gpf_product_slideimgs}}" style="width: 280rpx; height:280rpx;" mode="scaleToFill"></image>
+          <view class="search_result_words borderBot_c0ccda" style='width:420rpx;'>
+            <text class="fs28 col333 disBlock mb10 overEllis">{{item.gpf_product_title}}</text>
+            <text class="fs28 col333 disBlock mb10 overEllis">{{item.gpf_product_sellingpoint}}</text>
+            <view class="property_goods fs24 col666 mb10">
+              <block wx:for="{{minGoodsiftArray}}" wx:key="*this">
+                <text>{{item.propvalue}}</text>
+              </block>
+            </view>
+            <!--  -->
+            <view class="mb10 fs28">
+              <view class="disline_Block overEllis" style='width:222rpx;'>
+                <text class="colFF6328 fs36">{{item.gpf_product_price}}</text>
+                <text class="col666"> 元/{{item.gpf_product_pdtformat}}</text>
+              </view>
+              <text class="col999 disline_Block overEllis" style='width:198rpx;'> 今日已售 {{item.gpf_product_saleamount}}笔</text>
+            </view>
+            <text class="fs24 col999 disBlock mb10 overEllis">产自{{item.gpf_product_sourceplace}}</text>
+            <view class="fs24 col666">
+              <text class="disline_Block overEllis" style="width:200rpx;">{{item.marketName}}</text>
+              <text class="disline_Block overEllis" style="width:200rpx;">{{item.gpf_product_sellername}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+    <!----------无商品的时候显示  -->
+    <block wx:else>
+      <view style="height:auto;">
+        <image src="../../../images/goods/none_searchResult.png" style="width: 160rpx; height:160rpx;margin-left:calc(50% - 80rpx);" mode="scaleToFill" class="mt150"></image>
+        <view class="fs28 col666 textCenter mt40">暂无数据</view>
+      </view>
+    </block>
+    <view class='loading_class'>
+      <!-- <view wx:if="{{!nomoredata}}">
+        <icon type="waiting" class='mr20' size="15" />
+        <text>玩命的加载中...</text>
+      </view> -->
+      <view hidden="{{!nomoredata}}">没有更多数据了!</view>
+    </view>
+  </scroll-view>
+
+</view>

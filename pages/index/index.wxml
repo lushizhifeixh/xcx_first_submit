@@ -1,0 +1,158 @@
+<scroll-view class="container" scroll-y="true">
+  <!--banner  -->
+  <view class="index_banner">
+    <!--轮播  -->
+    <swiper class="banner_carousel" indicator-dots autoplay indicator-color="rgba(255, 255, 255, .6)" indicator-active-color="#fff" interval="3000" duration="1000" circular current="0">
+      <swiper-item wx:for="{{bannerImgUrls}}" wx:key="*this" catchtap='goBannerPage' data-item='{{item}}'>
+        <image src="{{item.image}}" />
+      </swiper-item>
+    </swiper>
+    <!--搜索  -->
+    <view bindtap='go_completPage'>
+      <template name="searchGoods">
+        <view class="banner_search">
+          <icon type="search" size="20" />
+          <input placeholder="搜索商品、商户或市场" placeholder-style="color:#99a9bf" />
+        </view>
+      </template>
+      <view class="banner_search">
+        <icon type="search" size="20" />
+        <text style="color:#99a9bf">搜索商品、商户或市场</text>
+      </view>
+    </view>
+    <view class="banner_word">
+      <text class="fs48 colfff">新鲜到底来一起</text>
+    </view>
+  </view>
+  <!--banlist  -->
+  <view class="banlist mb20 bgfff">
+    <block wx:for="{{banlistArray}}" wx:key="*this">
+      <view class="banlist_classify disFlex_column">
+        <image src="{{item.imgsUrls}}" style="width: 52rpx; height:52rpx;" mode="scaleToFill" class="mb8"></image>
+        <text>{{item.texts}}</text>
+      </view>
+    </block>
+  </view>
+  <!--non_payment  -->
+  <view class="non_payment mb20 bgfff">
+    <navigator url="../layer/layer">进入layer页面</navigator>
+  </view>
+  <!--recommend  附近的市场-->
+  <view class="recommend bgfff">
+    <!-- title -->
+    <view class="recommend_tit">
+      <view class="tit_left fs30">附近的市场</view>
+      <view class="fs24 col_526072" bindtap='go_nearby_market'>更多</view>
+    </view>
+    <!-- 附近的市场显示内容 -->
+    <block wx:if="{{isMarketList}}">
+      <view wx:for="{{marklistArray}}" wx:key="*this" class='borderBot_f0f1f1'>
+        <view class="recommend_cont recommend_near" bindtap='go_nearyMark' data-markitem="{{item.guid}}">
+          <image src="{{item.logo}}" style="width: 136rpx; height:136rpx;" mode="scaleToFill" class="mr20"></image>
+          <view class="recommend_cont_right" style="width:522rpx;">
+            <view class="mark_distance disFlex relative">
+              <text class="col333 fs28 fwBold disline_Block overEllis" style='width:360rpx;'>{{item.marketname}}</text>
+              <view class="absolute distance_last">
+                <image src="../../images/index/location.png" class="mark_distance_location padding_right8"></image>
+                <text>距离 {{item.distance}} km</text>
+              </view>
+            </view>
+            <text class="col666 fs28 disBlock overEllis mt15 mb15" style="width:435rpx;">{{item.address}}</text>
+            <view class="col999 fs24">
+              <text class='disline_Block overEllis' style='width:180rpx;'>商户数 {{item.pdtCount}} 家</text>
+              <text class='disline_Block overEllis' style='width:260rpx;'>当前售卖商品 {{item.sellerCount}} 种</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+    <!-- 无附近的市场显示内容 -->
+    <block wx:else>
+      <view class="none_recommend">
+        <image src="../../images/index/none_bg_icon.png" mode="scaleToFill"></image>
+        <view>附近暂无匹配市场</view>
+      </view>
+    </block>
+  </view>
+  <!--recommend为你推荐-->
+  <view class="recommend bgfff">
+    <view class="recommend_tit">
+      <view class="tit_left fs30">为你推荐</view>
+      <view></view>
+    </view>
+    <!-- cont -->
+    <block wx:if="{{isGoods}}">
+      <view wx:for="{{pdtListArray}}" wx:key="*this" class='borderBot_f0f1f1'>
+        <view class="recommend_cont recommend_refer col666 fs28" bindtap='go_remmonGoods' data-goodsitem="{{item.pdtId}}">
+          <image mode="" src="{{item.pdtImgs}}" style="width: 200rpx; height:200rpx;" mode="scaleToFill" class="mr20"></image>
+          <view class="recommend_cont_right col333" style="width:512rpx;padding-right:10rpx;">
+            <text class="fs32 fwBold disBlock overEllis">{{item.pdtTitle}}</text>
+            <text class="disBlock mt5">{{item.pdtPrice}}元/{{item.pdtFormat}}</text>
+            <text class="disBlock overEllis mt5" style="width:435rpx;">{{item.pdtSellingPoint}}</text>
+            <view class="mt8 disFlex_row col999 fs24">
+              <text class="disline_Block overEllis" style="width:300rpx;"> 产自{{item.pdtSourcePlace}}</text>
+              <text class="disline_Block overEllis" style="width:200rpx;">当今日已售{{item.pdtSaleAmount}}笔</text>
+            </view>
+            <view class="mt8 disFlex_row">
+              <text class="disline_Block overEllis" style="width:250rpx;">{{item.mName}}</text>
+              <text class="disline_Block overEllis" style="width:250rpx;">{{item.sName}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+    <!-- 无为你推荐显示内容 -->
+    <block wx:else>
+      <view class="none_recommend">
+        <image src="../../images/index/none_bg_icon.png" mode="scaleToFill"></image>
+        <view>暂时无匹配推荐商品</view>
+      </view>
+    </block>
+  </view>
+  <!--recommend优质商户-->
+  <view class="recommend bgfff recommend_bot100">
+    <view class="recommend_tit">
+      <view class="tit_left fs30">优质商户</view>
+      <view></view>
+    </view>
+    <block wx:if="{{isStore}}">
+      <view class="recommend_cont recommend_merial borderBot_f0f1f1" wx:for="{{sellerListArray}}" wx:key="*this">
+        <view class="recommend_merial_tit mb30" bindtap='go_recomendStore' data-storeitem="{{item.sellerId}}">
+          <image mode="" src="{{item.picstr}}" style="width: 75rpx; height:75rpx;" mode="scaleToFill" class="mr20"></image>
+          <view>
+            <text class="col333 fs30 disBlock overEllis fwBold" style='width:500rpx;'>{{item.boss}}</text>
+            <view class="col999 fs24 mt5">
+              <text class="disline_Block overEllis" style="width:200rpx;"> 销量{{item.saleAmount}}</text>
+              <text class="disline_Block overEllis" style="width:300rpx;">{{item.marketName}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="recommend_merial_cont disFlex">
+          <block wx:for="{{minPdtsListArray}}" wx:key="*this">
+            <view class="merial_cont_li" bindtap='go_recomendStoreGoods' data-storegoodsitem="{{item.guid}}">
+              <image src="{{item.slideimgs}}" style="width: 100%; height:100%;" mode="scaleToFill"></image>
+              <view class="posit_word disFlex_row">
+                <text class="overEllis disline_Block" style='100rpx'>{{item.pdttypename}}</text>
+                <text class="overEllis disline_Block" style='150rpx'>￥{{item.price}}</text>
+              </view>
+            </view>
+          </block>
+        </view>
+      </view>
+    </block>
+    <!-- 无优质商户内容显示 -->
+    <block wx:else>
+      <view class="none_recommend">
+        <image src="../../images/index/none_bg_icon.png" mode="scaleToFill"></image>
+        <view>暂时无匹配优质商户</view>
+      </view>
+    </block>
+  </view>
+</scroll-view>
+<view class='index_wrap_layer' wx-if="{{isLayerShow}}">
+  <view class="layer_content">
+    <text class="fs32 colfff">商品价格随行就市，商城价格为参考价！</text>
+    <view class="fs28 col333 know_calc" catchtap='knowCalcLayer'>知道了</view>
+    <image src='/images/index/index_light_bulb.png' style='width:100rpx;height:140rpx;left:-65rpx;top:20rpx;' mode="scaleToFill" class='absolute'></image>
+  </view>
+</view>

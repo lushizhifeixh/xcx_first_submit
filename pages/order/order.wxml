@@ -1,0 +1,325 @@
+<view wx:if="{{isLogin}}">
+  <!--顶部购物车总量  -->
+  <view class="fixedbox">
+    <view class="cart_all_Num disFlex_single">
+      <view class="size_box"></view>
+      <view class="fs36 col333 shopping_cart_num">我的订单</view>
+      <view class="fs32 col37c65c size_box" catchtap='goSearchOrder'>
+        <icon type="search" size="20" color="#1F2D3D" />
+      </view>
+    </view>
+    <view class="swiper-tab">
+      <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">待受理</view>
+      <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">待提货</view>
+      <view class="swiper-tab-list {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">已收货</view>
+      <view class="swiper-tab-list {{currentTab==3 ? 'on' : ''}}" data-current="3" bindtap="swichNav">已失效</view>
+    </view>
+  </view>
+  <swiper current="{{currentTab}}" class="swiper-box" duration="300" style="height:{{winHeight}}px" bindchange="bindChange">
+    <!-- 1待受理 -->
+    <swiper-item>
+      <!--订单不为空的情况  -->
+      <block wx:if="{{isorderEmpty}}">
+        <scroll-view class='cart_all_detail' style="height:{{winHeight}}px" scroll-y>
+          <view class="all_detail_box fs28 col333">
+            <!--市场  -->
+            <block wx:for="{{orderResultArr}}" wx:key="*this" wx:for-item="marksArr">
+              <!--  block----------------------->
+              <!--市场的名字  -->
+              <view class="cart_detail_markName Letter_space textCenter">{{marksArr.marketName}}</view>
+              <!--店铺 -->
+              <block wx:for="{{marksArr.orderList}}" wx:key="*this" wx:for-item="storesArr">
+                <view class="container_seller_box">
+                  <view class="seller_box_detail">
+                    <!--店铺的名字  -->
+                    <view class="seller_nameNum disFlex_single fs28 relative">
+                      <view class="col333 Letter_space store_name_only textLeft" catchtap='forwardCartStore' data-storeitem='{{storesArr.sellerId}}'>{{storesArr.sellerName}}</view>
+                      <view class='col37c65c opration_order' catchtap='GoOrderDetail' data-myorderid='{{storesArr.orderId}}' data-sellerphone='{{storesArr.sellerPhone}}'>{{storesArr.orderStatusC}}</view>
+                    </view>
+                    <!-- 店铺里面加入购物车的商品 -->
+                    <block wx:for='{{storesArr.pdtDt}}' wx:key="*this" wx:for-item="goodsArr">
+                      <view class="cart_store_goods disFlex_single" catchtap='GoOrderDetail' data-myorderid='{{storesArr.orderId}}'>
+                        <image src="{{BasicFontAPI + goodsArr.slideImgs}}" style="width: 440rpx; height:188rpx;" mode="scaleToFill" class="mt30 mr20"></image>
+                        <view class="cart_goods_detail mt30 fs24">
+                          <text class="col666 fs28 disBlock overEllis mb4" style="width:350rpx;">{{goodsArr.title}}</text>
+                          <view class="property_goods col888 mb20 fs24 mt10">
+                            <text wx:for='{{goodsArr.otherPropList}}' wx:key="*this" wx:for-item="goodsPointArr">{{goodsPointArr.propvalue}}</text>
+                          </view>
+                          <view class="disFlex_single col333 mb15">
+                            <view class="Letter_space">
+                              <text class="col000">{{goodsArr.price}}</text> 元/{{goodsArr.pdtFormat}}</view>
+                            <view class="cart_list_numRepat disFlex_row">数量：{{goodsArr.orderPdtNum}}</view>
+                          </view>
+                          <view class="colFF6328 fs32">¥{{goodsArr.pdtTotalPrice}}</view>
+                        </view>
+                      </view>
+                    </block>
+                  </view>
+                  <!--买家备注：  -->
+                  <view class="borderBot_f0f1f1 seller_box_detail buyer_remark overEllis">买家备注：{{storesArr.note}}</view>
+                  <!--  -->
+                  <view class="borderBot_f0f1f1 fs24 seller_box_detail total_price_time">
+                    <view class="textRight mt15 mb15">共{{storesArr.pdtDt.length}}件 合计:
+                      <text class='colFF6328'>¥ </text>
+                      <text class='colFF6328 fs32'> {{storesArr.orderPrice}}</text>
+                    </view>
+                    <view class="textRight relative">
+                      <image class='mr20' src="../../images/order/pickGoodsClock.png" style="width: 32rpx; height:32rpx;position:absolute;top:0rpx;right:365rpx;" mode="scaleToFill"></image>
+                      <text>提货时间：{{storesArr.deliveryTime}}</text>
+                    </view>
+                  </view>
+                  <!--  -->
+                  <view class="fs28 seller_box_detail order_manage borderBot_f0f1f1">
+                    <text class='order_manage_info mr20' catchtap='buyAginAccept' data-myorderid='{{storesArr.orderId}}'>再次购买</text>
+                    <text class='order_manage_info mr20' catchtap='calcMyOrder' data-myorderid='{{storesArr.orderId}}' data-orderstatu='{{storesArr.orderStatus}}'>取消订单</text>
+                    <text class='order_manage_info order_info_green'>提醒受理</text>
+                  </view>
+                  <!--  -->
+                </view>
+              </block>
+              <!-- block-------------- -->
+            </block>
+          </view>
+        </scroll-view>
+      </block>
+      <!--订单为空的情况  -->
+      <block wx:else>
+        <view class='cart_empty fs32 col333 relative'>
+          <image style="width: 60rpx; height:60rpx;vertical-align:middle;margin-right:10rpx;" mode="scaleToFill" src="/images/goods/order_empty_a.png"></image>
+          <text class='empty_cart_text'>暂时没有相关订单</text>
+        </view>
+      </block>
+    </swiper-item>
+    <!-- 2待提货template的引用 -->
+    <swiper-item>
+      <block wx:if="{{isorderEmpty}}">
+        <scroll-view class='cart_all_detail' style="height:{{winHeight}}px" scroll-y>
+          <view class="all_detail_box fs28 col333">
+            <!--市场  -->
+            <block wx:for="{{orderResultArr}}" wx:key="*this" wx:for-item="marksArr">
+              <!--  block----------------------->
+              <!--市场的名字  -->
+              <view class="cart_detail_markName Letter_space textCenter">{{marksArr.marketName}}</view>
+              <!--店铺 -->
+              <block wx:for="{{marksArr.orderList}}" wx:key="*this" wx:for-item="storesArr">
+                <view class="container_seller_box">
+                  <view class="seller_box_detail">
+                    <!--店铺的名字  -->
+                    <view class="seller_nameNum disFlex_single fs28 relative">
+                      <view class="col333 Letter_space store_name_only textLeft" catchtap='forwardCartStore' data-storeitem='{{storesArr.sellerId}}'>{{storesArr.sellerName}}</view>
+
+                      <view class='col37c65c' catchtap='GoOrderDetail' data-myorderid='{{storesArr.orderId}}' data-sellerphone='{{storesArr.sellerPhone}}'>{{storesArr.orderStatusC}}</view>
+                    </view>
+                    <!-- 店铺里面加入购物车的商品 -->
+                    <block wx:for='{{storesArr.pdtDt}}' wx:key="*this" wx:for-item="goodsArr">
+                      <view class="cart_store_goods disFlex_single" catchtap='GoOrderDetail' data-myorderid='{{storesArr.orderId}}'>
+                        <image src="{{BasicFontAPI + goodsArr.slideImgs}}" style="width: 440rpx; height:188rpx;" mode="scaleToFill" class="mt30 mr20"></image>
+                        <view class="cart_goods_detail mt30 fs24">
+                          <text class="col666 fs28 disBlock overEllis mb4" style="width:350rpx;">{{goodsArr.title}}</text>
+                          <view class="property_goods col888 mb20 fs24 mt10">
+                            <text wx:for='{{goodsArr.otherPropList}}' wx:key="*this" wx:for-item="goodsPointArr">{{goodsPointArr.propvalue}}</text>
+                          </view>
+                          <view class="disFlex_single col333 mb15">
+                            <view class="Letter_space">
+                              <text class="col000">{{goodsArr.price}}</text> 元/{{goodsArr.pdtFormat}}</view>
+                            <view class="cart_list_numRepat disFlex_row">数量：{{goodsArr.orderPdtNum}}</view>
+                          </view>
+                          <view class="colFF6328 fs32">¥{{goodsArr.pdtTotalPrice}}</view>
+                        </view>
+                      </view>
+                    </block>
+                  </view>
+                  <!--买家备注：  -->
+                  <view class="borderBot_f0f1f1 seller_box_detail buyer_remark overEllis">买家备注：{{storesArr.note}}</view>
+                  <!--  -->
+                  <view class="borderBot_f0f1f1 fs24 seller_box_detail total_price_time">
+                    <view class="textRight mt15 mb15">共{{storesArr.pdtDt.length}}件 合计:
+                      <text class='colFF6328'>¥ </text>
+                      <text class='colFF6328 fs32'> {{storesArr.orderPrice}}</text>
+                    </view>
+                    <view class="textRight relative">
+                      <image class='mr20' src="../../images/order/pickGoodsClock.png" style="width: 32rpx; height:32rpx;position:absolute;top:0rpx;right:365rpx;" mode="scaleToFill"></image>
+                      <text>提货时间：{{storesArr.deliveryTime}}</text>
+                    </view>
+                  </view>
+                  <!--  -->
+                  <view class="fs28 seller_box_detail order_manage borderBot_f0f1f1">
+                    <text class='order_manage_info mr20' catchtap='buyAginAccept' data-myorderid='{{storesArr.orderId}}'>再次购买</text>
+                    <text class='order_manage_info mr20' catchtap='contactSeller' data-sellerphone='{{storesArr.sellerPhone}}'>联系卖家</text>
+                    <text class='order_manage_info order_info_green' catchtap='confirmTakeGoods' data-myorderid='{{storesArr.orderId}}' data-orderstatu='{{storesArr.orderStatus}}'>确认收货</text>
+                  </view>
+                  <!--  -->
+                </view>
+              </block>
+              <!-- block-------------- -->
+            </block>
+          </view>
+        </scroll-view>
+      </block>
+      <!--订单为空的情况  -->
+      <block wx:else>
+        <view class='cart_empty fs32 col333 relative'>
+          <image style="width: 60rpx; height:60rpx;vertical-align:middle;margin-right:10rpx;" mode="scaleToFill" src="/images/goods/order_empty_a.png"></image>
+          <text class='empty_cart_text'>暂时没有相关订单</text>
+        </view>
+      </block>
+    </swiper-item>
+    <!-- 3已收货template的引用 -->
+    <swiper-item>
+      <block wx:if="{{isorderEmpty}}">
+        <scroll-view class='cart_all_detail' style="height:{{winHeight}}px" scroll-y>
+          <view class="all_detail_box fs28 col333">
+            <!--市场  -->
+            <block wx:for="{{orderResultArr}}" wx:key="*this" wx:for-item="marksArr">
+              <!--  block----------------------->
+              <!--市场的名字  -->
+              <view class="cart_detail_markName Letter_space textCenter">{{marksArr.marketName}}</view>
+              <!--店铺 -->
+              <block wx:for="{{marksArr.orderList}}" wx:key="*this" wx:for-item="storesArr">
+                <view class="container_seller_box">
+                  <view class="seller_box_detail">
+                    <!--店铺的名字  -->
+                    <view class="seller_nameNum disFlex_single fs28 relative">
+                      <view class="col333 Letter_space store_name_only textLeft" catchtap='forwardCartStore' data-storeitem='{{storesArr.sellerId}}'>{{storesArr.sellerName}}</view>
+                      <view class='col37c65c' catchtap='GoOrderDetail' data-myorderid='{{storesArr.orderId}}' data-sellerphone='{{storesArr.sellerPhone}}'>{{storesArr.orderStatusC}}</view>
+                    </view>
+                    <!-- 店铺里面加入购物车的商品 -->
+                    <block wx:for='{{storesArr.pdtDt}}' wx:key="*this" wx:for-item="goodsArr">
+                      <view class="cart_store_goods disFlex_single" catchtap='GoOrderDetail' data-myorderid='{{storesArr.orderId}}'>
+                        <image src="{{BasicFontAPI + goodsArr.slideImgs}}" style="width: 440rpx; height:188rpx;" mode="scaleToFill" class="mt30 mr20"></image>
+                        <view class="cart_goods_detail mt30 fs24">
+                          <text class="col666 fs28 disBlock overEllis mb4" style="width:350rpx;">{{goodsArr.title}}</text>
+                          <view class="property_goods col888 mb20 fs24 mt10">
+                            <text wx:for='{{goodsArr.otherPropList}}' wx:key="*this" wx:for-item="goodsPointArr">{{goodsPointArr.propvalue}}</text>
+                          </view>
+                          <view class="disFlex_single col333 mb15">
+                            <view class="Letter_space">
+                              <text class="col000">{{goodsArr.price}}</text> 元/{{goodsArr.pdtFormat}}</view>
+                            <view class="cart_list_numRepat disFlex_row">数量：{{goodsArr.orderPdtNum}}</view>
+                          </view>
+                          <view class="colFF6328 fs32">¥{{goodsArr.pdtTotalPrice}}</view>
+                        </view>
+                      </view>
+                    </block>
+                  </view>
+                  <!--买家备注：  -->
+                  <view class="borderBot_f0f1f1 seller_box_detail buyer_remark overEllis">买家备注：{{storesArr.note}}</view>
+                  <!--  -->
+                  <view class="borderBot_f0f1f1 fs24 seller_box_detail total_price_time">
+                    <view class="textRight mt15 mb15">共{{storesArr.pdtDt.length}}件 合计:
+                      <text class='colFF6328'>¥ </text>
+                      <text class='colFF6328 fs32'> {{storesArr.orderPrice}}</text>
+                    </view>
+                    <view class="textRight relative">
+                      <image class='mr20' src="../../images/order/pickGoodsClock.png" style="width: 32rpx; height:32rpx;position:absolute;top:0rpx;right:365rpx;" mode="scaleToFill"></image>
+                      <text>提货时间：{{storesArr.deliveryTime}}</text>
+                    </view>
+                  </view>
+                  <!--  -->
+                  <view class="fs28 seller_box_detail order_manage borderBot_f0f1f1">
+
+                    <text class='order_manage_info mr20 fr' catchtap='buyAginAccept' data-myorderid='{{storesArr.orderId}}'>再次购买</text>
+                  </view>
+                  <!--  -->
+                </view>
+              </block>
+              <!-- block-------------- -->
+            </block>
+          </view>
+        </scroll-view>
+      </block>
+      <!--订单为空的情况  -->
+      <block wx:else>
+        <view class='cart_empty fs32 col333 relative'>
+          <image style="width: 60rpx; height:60rpx;vertical-align:middle;margin-right:10rpx;" mode="scaleToFill" src="/images/goods/order_empty_a.png"></image>
+          <text class='empty_cart_text'>暂时没有相关订单</text>
+        </view>
+      </block>
+    </swiper-item>
+    <!-- 4已失效template的引用 -->
+    <swiper-item>
+      <block wx:if="{{isorderEmpty}}">
+        <scroll-view class='cart_all_detail' style="height:{{winHeight}}px" scroll-y>
+          <view class="all_detail_box fs28 col333">
+            <!--市场  -->
+            <block wx:for="{{orderResultArr}}" wx:key="*this" wx:for-item="marksArr">
+              <!--  block----------------------->
+              <!--市场的名字  -->
+              <view class="cart_detail_markName Letter_space textCenter">{{marksArr.marketName}}</view>
+              <!--店铺 -->
+              <block wx:for="{{marksArr.orderList}}" wx:key="*this" wx:for-item="storesArr">
+                <view class="container_seller_box">
+                  <view class="seller_box_detail">
+                    <!--店铺的名字  -->
+                    <view class="seller_nameNum disFlex_single fs28 relative">
+                      <view class="col333 Letter_space store_name_only textLeft" catchtap='forwardCartStore' data-storeitem='{{storesArr.sellerId}}'>{{storesArr.sellerName}}</view>
+                      <view class='col37c65c' catchtap='GoOrderDetail' data-myorderid='{{storesArr.orderId}}' data-sellerphone='{{storesArr.sellerPhone}}'>{{storesArr.orderStatusC}}</view>
+                    </view>
+                    <!-- 店铺里面加入购物车的商品 -->
+                    <block wx:for='{{storesArr.pdtDt}}' wx:key="*this" wx:for-item="goodsArr">
+                      <view class="cart_store_goods disFlex_single" catchtap='GoOrderDetail' data-myorderid='{{storesArr.orderId}}'>
+                        <image src="{{BasicFontAPI + goodsArr.slideImgs}}" style="width: 440rpx; height:188rpx;" mode="scaleToFill" class="mt30 mr20"></image>
+                        <view class="cart_goods_detail mt30 fs24">
+                          <text class="col666 fs28 disBlock overEllis mb4" style="width:350rpx;">{{goodsArr.title}}</text>
+                          <view class="property_goods col888 mb20 fs24 mt10">
+                            <text wx:for='{{goodsArr.otherPropList}}' wx:key="*this" wx:for-item="goodsPointArr">{{goodsPointArr.propvalue}}</text>
+                          </view>
+                          <view class="disFlex_single col333 mb15">
+                            <view class="Letter_space">
+                              <text class="col000">{{goodsArr.price}}</text> 元/{{goodsArr.pdtFormat}}</view>
+                            <view class="cart_list_numRepat disFlex_row">数量：{{goodsArr.orderPdtNum}}</view>
+                          </view>
+                          <view class="colFF6328 fs32">¥{{goodsArr.pdtTotalPrice}}</view>
+                        </view>
+                      </view>
+                    </block>
+                  </view>
+                  <!--买家备注：  -->
+                  <view class="borderBot_f0f1f1 seller_box_detail buyer_remark overEllis">买家备注：{{storesArr.note}}</view>
+                  <!--  -->
+                  <view class="borderBot_f0f1f1 fs24 seller_box_detail total_price_time">
+                    <view class="textRight mt15 mb15">共{{storesArr.pdtDt.length}}件 合计:
+                      <text class='colFF6328'>¥ </text>
+                      <text class='colFF6328 fs32'> {{storesArr.orderPrice}}</text>
+                    </view>
+                    <view class="textRight relative">
+                      <image class='mr20' src="../../images/order/pickGoodsClock.png" style="width: 32rpx; height:32rpx;position:absolute;top:0rpx;right:365rpx;" mode="scaleToFill"></image>
+                      <text>提货时间：{{storesArr.deliveryTime}}</text>
+                    </view>
+                  </view>
+                  <!--  -->
+                  <view class="fs28 seller_box_detail order_manage borderBot_f0f1f1">
+                    <text class='order_manage_info mr20 fr' catchtap='buyAginAccept' data-myorderid='{{storesArr.orderId}}'>再次购买</text>
+                    <text class='order_manage_info mr20 fr' catchtap='delMyOrder' data-myorderid='{{storesArr.orderId}}' data-orderstatu='{{storesArr.orderStatus}}'>删除订单</text>
+
+                  </view>
+                  <!--  -->
+                </view>
+              </block>
+              <!-- block-------------- -->
+            </block>
+          </view>
+        </scroll-view>
+      </block>
+      <!--订单为空的情况  -->
+      <block wx:else>
+        <view class='cart_empty fs32 col333 relative'>
+          <image style="width: 60rpx; height:60rpx;vertical-align:middle;margin-right:10rpx;" mode="scaleToFill" src="/images/goods/order_empty_a.png"></image>
+          <text class='empty_cart_text'>暂时没有相关订单</text>
+        </view>
+      </block>
+    </swiper-item>
+  </swiper>
+</view>
+<!--取消订单选择原因的朦层  -->
+<view class='order_wrap_layer' wx:if="{{isCalcOrderWhyShow}}" bindtap="calOrderLayerOut" id="calclayerout">
+  <view class="order_layer_content Layertoappear fs32 col666">
+    <view class="calcWhyOrder textCenter fs36 borderBot_f0f1f1 col333 boxSizing view_layercont">您为什么取消?</view>
+    <block wx:for="{{calcOrderWhyArr}}" wx:key="*this" wx:for-item="calcOrderarr">
+      <block wx:for="{{calcOrderarr}}" wx:key="*this">
+        <view class="borderBot_f0f1f1 textCenter" data-item = '{{item}}' catchtap='chooseCalcReson'>{{item}}</view>
+      </block>
+    </block>
+    <view class="calcWhyOrder textCenter col37c65c" catchtap='calcLayerHide'>取消</view>
+  </view>
+</view>

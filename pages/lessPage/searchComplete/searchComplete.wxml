@@ -1,0 +1,95 @@
+<import src="../../index/index.wxml" />
+
+  <!-- 头部搜索 -->
+  <view class="searGood_header disFlex_row">
+    <view class="banner_search">
+      <icon type="search" size="20" />
+      <input placeholder="搜索商品、商户或市场" placeholder-style="color:#99a9bf" bindinput="complementInput_show" id="{{setting_id}}" name='username' bindconfirm="direct_search" value="{{searchText}}" focus="{{true}}" />
+    </view>
+    <text class="col37c65c fs28" bindtap="redirect_index">取消</text>
+  </view>
+  <!-- 热门搜索 -->
+  <view class="swiper-tab fs32 bgfff mb20">
+    <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">商品</view>
+    <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">商户</view>
+  </view>
+  <!--  -->
+  <swiper current="{{currentTab}}" class="swiper-box" duration="300" style="height:{{winHeight - 95}}px" bindchange="bindChange">
+    <swiper-item class="bgfff" id="left_show" scroll-y>
+    <scroll-view class="" scroll-y style="height:100%;">
+      <block wx:if="{{show_goods_list}}">
+        <view class="searGood_hot">
+          <block wx:for="{{hotArray}}" wx:key="*this">
+            <view data-item="{{item}}" catchtap="goToSearchResult" style='display:inline-block;'>
+              <view class="hot_list"> {{item}} </view>
+            </view>
+          </block>
+        </view>
+        <view class="title_Name fs32 fwBold col333 disFlex_row" wx:if="{{isGoodHistory}}">
+          <view>搜索历史</view>
+          <image src="../../../images/index/icon/clear_all_history.png" class="" style="width: 32rpx;height: 34rpx;" catchtap='clearAllGoods'></image>
+        </view>
+        <view class="searGood_history">
+          <view wx:for="{{goodsHistoryArray}}" wx:key="*this" class="disFlex borderBot_c0ccda relative">
+            <view class="click_skip" bindtap="skip_goods" data-item="{{item}}">
+              <image src="../../../images/index/icon/history_circle.png" class="" style="width: 32rpx;height: 32rpx;"></image>
+              <view class="history_list fs28 col333"> {{item}} </view>
+            </view>
+            <view catchtap="clearGoodsHistory" class="click_text disFlex_center">
+              <image data-index="{{index}}" src="../../../images/index/icon/history_calc.png" class="history_img_right absolute" style="width: 20rpx;height: 20rpx;"></image>
+            </view>
+          </view>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="searGood_history">
+          <block wx:for="{{completeArray}}" wx:key="*this">
+            <view class="disFlex borderBot_c0ccda relative" data-item="{{item}}" bindtap="goods_history">
+              <image src="../../../images/index/icon/search_complent.png" style="width: 30rpx;height: 30rpx;"></image>
+              <view class="history_list fs28 col333"> {{item}} </view>
+            </view>
+          </block>
+        </view>
+      </block>
+    </scroll-view>
+    </swiper-item>
+    <swiper-item id="right_show">
+    <scroll-view class="" scroll-y style="height:100%;">
+      <block wx:if="{{show_goods_list}}">
+        <view class="searGood_hot">
+          <block wx:for="{{hotArray}}" wx:key="*this">
+            <view data-item="{{item}}" data-tab="{{currentTab}}" catchtap='storeResult' style='display:inline-block;'>
+              <view class="hot_list"> {{item}} </view>
+            </view>
+          </block>
+        </view>
+        <!--搜索历史  -->
+        <view class="title_Name fs32 fwBold col333 disFlex_row" wx:if="{{isStoreHistory}}">
+          <view>搜索历史</view>
+          <image src="../../../images/index/icon/clear_all_history.png" class="" style="width: 32rpx;height: 34rpx;" catchtap='clearAllStores'></image>
+        </view>
+        <view class="searGood_history">
+          <view wx:for="{{storeHistoryArray}}" wx:key="*this" class="disFlex borderBot_c0ccda relative">
+            <view class="click_skip" bindtap="skip_store" data-item="{{item}}">
+              <image src="../../../images/index/icon/history_circle.png" class="" style="width: 32rpx;height: 32rpx;"></image>
+              <view class="history_list fs28 col333"> {{item}} </view>
+            </view>
+            <view catchtap="clearstoresHistory" class="click_text disFlex_center">
+              <image src="../../../images/index/icon/history_calc.png" class="history_img_right absolute" style="width: 20rpx;height: 20rpx;"></image>
+            </view>
+          </view>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="searGood_history">
+          <block wx:for="{{completeArray}}" wx:key="*this">
+            <view class="disFlex borderBot_c0ccda relative" data-item="{{item}}" bindtap="store_history">
+              <image src="../../../images/index/icon/search_complent.png" class="" style="width: 30rpx;height: 30rpx;"></image>
+              <view class="history_list fs28 col333"> {{item}} </view>
+            </view>
+          </block>
+        </view>
+      </block>
+      </scroll-view>
+    </swiper-item>
+  </swiper>

@@ -1,0 +1,38 @@
+<!--搜索市场input -->
+<view class="searGood_header disFlex_row">
+  <view class="disFlex_row locationg col333 fs24" catchtap='getSelfLocation'>
+    <view style="width:24rpx; height:30rpx;margin-top:-3rpx;" class="disline_Block">
+      <image class="mark_distance_location" src="../../images/index/location.png" style="width:24rpx; height:30rpx;"></image>
+    </view>
+    <text class="">成都市</text>
+  </view>
+  <view class="banner_search">
+    <icon type="search" size="16" />
+    <input placeholder="搜索市场" placeholder-style="color:#99a9bf" bindinput="nearMarktInput_show" value='{{mark_inputValue}}' />
+    <icon type="clear" size="15" color="#c0ccda" style="width:58rpx;" catchtap="clearInputValue" hidden="{{!markInputValue}}" />
+  </view>
+</view>
+<!--recommend  附近的市场-->
+<scroll-view scroll-y style="height:{{winHeight-48}}px">
+  <view class="recommend">
+    <block wx:for="{{marketSiftArray}}" wx:key="*this">
+      <view class="recommend_cont recommend_near" bindtap='go_markDtail' data-markid="{{item.guid}}">
+        <image src="{{item.logo}}" style="width: 136rpx; height:136rpx;" mode="scaleToFill" class="mr20"></image>
+        <view class="recommend_cont_right" style="width:522rpx;">
+          <view class="mark_distance disFlex_row relative">
+            <text class="col333 fs28 fwBold disline_Block overEllis" style='width:360rpx;'>{{item.marketName}}</text>
+            <view class="absolute distance_last">
+              <image src="../../images/index/location.png" class="mark_distance_location padding_right8"></image>
+              <text>距离 {{item.distance}} km</text>
+            </view>
+          </view>
+          <text class="col666 fs28 disBlock overEllis mt15 mb15" style="width:435rpx;">{{item.address}}</text>
+          <view class="col999 fs24">
+            <text class='disline_Block overEllis' style='width:180rpx;'>商户数{{item.sellerCount}}家</text>
+            <text class='disline_Block overEllis' style='width:260rpx;'>当前售卖商品{{item.pdtCount}}种</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</scroll-view>

@@ -1,0 +1,110 @@
+<view wx:if="{{isLogin}}">
+  <view class="page_container">
+    <block wx:if="{{iscartEmpty}}">
+      <view class="hasCart_style disFlex_col_nocen">
+        <!--顶部购物车总量  -->
+        <view class="cart_all_Num disFlex_single cart_cart_num_rest">
+          <view class="size_box"></view>
+          <view class="fs36 col333 shopping_cart_num">购物车({{totalCartNum}})</view>
+          <view class="fs32 col37c65c size_box" catchtap='edit' wx-if="{{isEdit}}">编辑</view>
+          <view class="fs32 col37c65c size_box" catchtap='edit' wx-if="{{!isEdit}}">完成</view>
+        </view>
+        <!--中间购物车详情  -->
+        <scroll-view class='cart_all_detail cart_all_goods_height' scroll-y>
+          <view class="all_detail_box all_cart_detail_box">
+            <block wx:for="{{ApiResultMarkArr}}" wx:key="*this" wx:for-item="markArr">
+              <!--市场的名字  -->
+              <view class="cart_detail_markName fs28 col333 Letter_space">{{markArr.marketName}}</view>
+              <!--店铺  -->
+              <block wx:for="{{markArr.subList}}" wx:key="*this" wx:for-item="storeArr">
+                <view class="seller_number_detail">
+                  <!--店铺的名字  -->
+                  <view class="seller_nameNum disFlex_single relative">
+                    <view class="total_icon_contain" wx:if="{{storeGoodsNum[storeArr.sellerId]}}">
+                      <icon wx:if="{{choosedStore[storeArr.sellerId]}}" data-id="{{storeArr.sellerId}}" data-item="{{storeArr.cartList}}" type="success" size='20' color="#37C65C" class="cart_select" bindtap="clickStore" />
+                      <icon wx:else type="circle" data-id="{{storeArr.sellerId}}" data-item="{{storeArr.cartList}}" size='20' class="cart_select" bindtap="clickStore" />
+                    </view>
+                    <view style='width:579rpx' catchtap='forwardCartStore' data-storeitem='{{storeArr.sellerId}}'>
+                      <view class="fs28 col333 Letter_space store_name_only overEllis fl">
+                        <text class=''>{{storeArr.sellerName}}</text>
+                      </view>
+                      <view class='fs24 col333 total_price_01 fr overEllis' hidden="{{!choosedStore[storeArr.sellerId]||!storeGoodsNum[storeArr.sellerId]}}">
+                        共{{storeGoodsNum[storeArr.sellerId]}}件 合计
+                        <text class='colFF6328'>{{storeInfo[storeArr.sellerId]}}</text> 元
+                      </view>
+                    </view>
+                  </view>
+                  <!-- 店铺里面加入购物车的商品 -->
+                  <block wx:for='{{storeArr.cartList}}' wx:key="*this" wx:for-item="goodsArr">
+                    <!-- 没失效的商品 -->
+                    <view class="cart_store_goods disFlex_single" hidden='{{goodsArr.isEffect}}' >
+                      <view>
+                        <icon wx:if="{{choosedJson[goodsArr.pdtId]}}" data-sellerid="{{storeArr.sellerId}}" data-goodsid="{{goodsArr.pdtId}}" type="success" size='20' color="#37C65C;" bindtap="cartSingleSelected" data-index="{{index}}" class="cart_select mt50" />
+                        <icon wx:else type="circle" data-goodsid="{{goodsArr.pdtId}}" data-sellerid="{{storeArr.sellerId}}" bindtap="cartSingleSelected" size='20' data-index="{{index}}" class="cart_select mt50" />
+                      </view>
+                      <image bindtap='go_GoodsDetail' data-goodsitem="{{goodsArr.pdtId}}" src="{{BasicFontAPI + goodsArr.slideImgs}}" style="width: 188rpx; height:188rpx;" mode="scaleToFill" class="mt30"></image>
+                      <view class="cart_goods_detail mt30">
+                        <text class="col666 fs28 disBlock overEllis mb4" style="width:350rpx;">{{goodsArr.title}}</text>
+                        <text class="col666 fs28 disBlock overEllis mb4" style="width:350rpx;">{{goodsArr.sellingPoint}}</text>
+                        <view class="property_goods col888 mb20 fs24 mt10">
+                          <text wx:for='{{goodsArr.otherPropList}}' wx:key="*this" wx:for-item="goodsPointArr">{{goodsPointArr.propvalue}}</text>
+                        </view>
+                        <view class="disFlex_single fs28">
+                          <view class="Letter_space col333 overEllis" style='width:200rpx;'><text class="colFF6328">{{goodsArr.price}}</text>元/{{goodsArr.pdtFormat}}</view>
+                          <view class="cart_list_numRepat disFlex_row">
+                            <text class="list_minus {{minusColor[goodsArr.pdtId]?' col999':' col333'}}" data-goodsid="{{goodsArr.pdtId}}" data-mininum="{{goodsArr.minNum}}" data-goodsguid="{{goodsArr.guid}}" bindtap="cartListminusCount">-</text>
+                            <input type="number" bindinput="cartNumInput" data-mininum="{{goodsArr.minNum}}" bindblur='inputBlur' data-goodsid="{{goodsArr.pdtId}}" data-goodsguid="{{goodsArr.guid}}" value='{{goodsArr.cartNum}}' />
+                            <text class="list_add" data-goodsid="{{goodsArr.pdtId}}" data-goodsguid="{{goodsArr.guid}}" data-mininum="{{goodsArr.minNum}}" bindtap="cartListaddCount">+</text>
+                          </view>
+                        </view>
+                      </view>
+                    </view>
+                    <!-- 失效的商品 -->
+                    <view class="cart_store_goods disFlex_single" hidden='{{!goodsArr.isEffect}}'>
+                      <view class='mt50 lossEfficacy fs24 colfff'>失效</view>
+                      <image bindtap='go_GoodsDetail' data-goodsitem="{{goodsArr.pdtId}}" src="{{BasicFontAPI + goodsArr.slideImgs}}" style="width: 188rpx; height:188rpx;" mode="scaleToFill" class="mt30 mr20"></image>
+                      <view class="cart_goods_detail mt30">
+                        <text class="col999 fs28 disBlock overEllis mb4" style="width:350rpx;">{{goodsArr.title}}</text>
+                        <text class="col999 fs28 disBlock overEllis mb4" style="width:350rpx;">{{goodsArr.sellingPoint}}</text>
+                        <view class="property_goods col333 mb20 fs24 mt10">商品已不能购买，请联系卖家</view>
+                        <view class="property_goods fs28 property_goods_del">
+                          <text class='colFF6328' catchtap='delEfficacyGoods' data-guidid="{{goodsArr.guid}}">删除</text>
+                        </view>
+                      </view>
+                    </view>
+                    <!--------失效的商品-------------  -->
+                  </block>
+                </view>
+              </block>
+            </block>
+          </view>
+        </scroll-view>
+        <!--底部购物车的操作  -->
+        <view class="cart_operation_bot disFlex relative cart_cart_operation_bot">
+          <view class="select_all disFlex_row_around fs28 col999">
+            <view class="total_icon_contain">
+              <icon wx:if="{{allChoosed}}" type="success" size='20' color="#37C65C" class="cart_select" bindtap="cartselectAll" />
+              <icon wx:else type="circle" size='20' class="cart_select" bindtap="cartselectAll" />
+            </view>
+            <text>全选</text>
+          </view>
+          <view class="is_order_form fs28 overEllis" wx-if="{{isEdit}}">
+            <text class="fs24 col999 ml30">不含运费</text>
+            <text class="col333 ml15">合计：</text>
+            <text class="colFF6328 ml20">¥{{totalPrice}}</text>
+          </view>
+          <view class="is_order_form fs28" wx-if="{{!isEdit}}">
+          </view>
+          <view class="place_on_order fs28 colfff Letter_space bacKGreen absolte_bottom_price" wx-if="{{isEdit}}" catchtap='CartplaceAnOrder'>下单({{choosedNum}})</view>
+          <view class="place_on_order fs28 colfff Letter_space bacKRed absolte_bottom_price" wx-if="{{!isEdit}}" catchtap='deleteGoods'>删除({{choosedNum}})</view>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <view class='cart_empty fs32 col333 relative'>
+        <image style="width: 60rpx; height:60rpx;vertical-align:middle;margin-right:10rpx;" mode="scaleToFill" src="/images/goods/cart_empty_a.png"></image>
+        <text class='empty_cart_text'>购物车为空</text>
+      </view>
+    </block>
+  </view>
+</view>

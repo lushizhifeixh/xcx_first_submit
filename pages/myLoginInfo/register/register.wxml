@@ -1,0 +1,13 @@
+<view class="login_container">
+    <view class="message_borB relative">
+      <input type="number" bindinput="telInput" maxlength='11' value='{{telephone}}'  placeholder="手机号码" auto-focus placeholder-class="plac_class" focus/>
+      <icon  type="clear" hidden="{{!telephone}}" catchtap="clearTel" size="15" class="verification_code"></icon >
+    </view>
+    <view class="message_borB relative">
+      <input type="number" bindinput='codeInput' placeholder="验证码" placeholder-class="plac_class" maxlength='8'/>
+      <text class="fs28 verification_code {{getNumFlag?' greenCode':' grayCode'}}" catchtap="getCode">{{codeText}}</text>
+    </view> 
+    <view class="mt30 register_next">  
+        <view class="nextBtn{{telFlag&&code?' green':' gray'}}" bindtap="gotoregister">绑定</view>
+    </view>
+</view>

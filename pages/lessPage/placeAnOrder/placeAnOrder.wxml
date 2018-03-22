@@ -1,0 +1,136 @@
+<scroll-view class='cart_all_detail' scroll-y>
+  <view class="select_take_time disFlex_single mt20" catchtap='selectTime'>
+    <view class="size_box"></view>
+    <view class="fs28 col333 shopping_cart_num">
+      <image class='mr20' src="../../../images/order/takeGoodstiem.png" style="width: 32rpx; height:32rpx;vertical-align:middle;" mode="scaleToFill"></image>{{pickGoodsTime}}</view>
+    <view class="fs32 col37c65c size_box">
+      <image src="../../../images/order/forward_go.png" mode="scaleToFill" style="width: 16rpx; height:26rpx;"></image>
+    </view>
+  </view>
+
+  <!--中间购物车详情  -->
+
+  <view class="all_detail_box fs28 col333">
+    <block wx:for="{{allMarkArr}}" wx:key="*this" wx:for-item="markArr" wx:for-index="marketIndex">
+      <!--  block----------------------->
+      <!--市场的名字  -->
+      <view class="cart_detail_markName Letter_space textCenter">{{markArr.marketName}}</view>
+      <!--店铺  -->
+      <block wx:for="{{markArr.subList}}" wx:key="*this" wx:for-item="storekArr" wx:for-index="storeIndex">
+        <view class="container_seller_box">
+          <view class="seller_box_detail">
+            <!--店铺的名字  -->
+            <view class="seller_nameNum disFlex_single fs28 relative">
+              <view class="col333 Letter_space store_name_only textLeft overEllis" style='width:390rpx;'>{{storekArr.sellerName}}</view>
+              <view class='fs24 col333 overEllis' style='width:300rpx;text-align:right;'>
+                共{{storekArr.cartList.length}}件 合计
+                <text class='colFF6328'>{{storekArr.sellerTotalPrice}}</text> 元</view>
+            </view>
+            <!-- 店铺里面加入购物车的商品 -->
+            <block wx:for='{{storekArr.cartList}}' wx:key="*this"  wx:for-item="goodsArr">
+              <view class="cart_store_goods disFlex_single">
+                <image src="{{BasicFontAPI + goodsArr.slideImgs}}" style="width: 188rpx; height:190rpx;" mode="scaleToFill" class="mt30 mr20"></image>
+                <view class="cart_goods_detail mt30 fs24">
+                  <text class="col666 fs28 disBlock overEllis mb4">{{goodsArr.title}}</text>
+
+                  <view class="property_goods col888 mb20 fs24 mt10">
+                    <text wx:for='{{goodsArr.otherPropList}}' wx:key="*this" wx:for-item="goodsPointArr">{{goodsPointArr.propvalue}}</text>
+                  </view>
+                  <view class="disFlex_single col333 mb15">
+                    <view class="Letter_space">
+                      <text class="col000">{{goodsArr.price}}</text> 元/{{goodsArr.pdtFormat}}</view>
+                    <view class="cart_list_numRepat disFlex_row">数量：{{goodsArr.cartNum}}</view>
+                  </view>
+                  <view class="colFF6328 fs32">¥{{goodsArr.pdtTotalPrice}}</view>
+                </view>
+              </view>
+            </block>
+          </view>
+          <!--买家备注：  -->
+          <view class="borderBot_f0f1f1 seller_box_detail buyer_remark">买家留言：
+            <input value="{{storekArr['orderMark']}}" 
+                   data-index="{{marketIndex}}" 
+                   data-storeindex="{{storeIndex}}"
+                   bindinput="saveMsg" 
+                   type="text" 
+                   placeholder="选填，填写内容和卖家协商确认" 
+                   placeholder-class='input_class' />
+          </view>
+
+        </view>
+      </block>
+      <!-- block-------------- -->
+    </block>
+
+  </view>
+</scroll-view>
+<view class="cart_operation_bot disFlex_row_around">
+  <view style='width:28rpx;'></view>
+  <view class="is_order_form fs28">
+    <text class="fs24 col999 ml30">不含运费</text>
+    <text class="col333 ml15">合计：</text>
+    <text class="colFF6328 ml20">¥{{cartBandData.totalPrice}}</text>
+  </view>
+  <view class="place_on_order fs28 colfff Letter_space bacKGreen" catchtap='placeAnOrder'>提交订单({{goodsNum}})</view>
+</view>
+
+<!--选择提货时间朦层  -->
+<view class='index_wrap_layer' hidden="{{!pickGoodsLayer}}" bindtap="wrapLayerOut" id="wraplayer">
+  <view class="layer_content_order{{pickGoodsLayer?' Layertoappear':' Layertotade'}}">
+    <view class="pick_good_title disFlex_row borderBot_f0f1f1">
+      <text class='fs32 col333'>提货时间</text>
+      <icon type="clear" color="#c0ccda" size="23" catchtap='calcLayer'></icon>
+    </view>
+    <view class='tab_content_container disFlex_only'>
+      <view class="swiper-tab mr30">
+        <view class="swiper-tab-item {{currentTab== 0 ? 'on' : ''}}" data-current="0" bindtap="swichNav" data-dayvalue='{{pickGoodsTimeArr[0].date}}'>{{pickGoodsTimeArr[0].date}}</view>
+        <view class="swiper-tab-item {{currentTab== 1 ? 'on' : ''}}" data-current="1" bindtap="swichNav" data-dayvalue='{{pickGoodsTimeArr[1].date}}'>{{pickGoodsTimeArr[1].date}}</view>
+      </view>
+      <swiper current="{{currentTab}}" class="swiper-box" duration="300" style="" bindchange="bindChange">
+        <block wx:for-index="dateIndex" wx:for="{{pickGoodsTimeArr}}" wx:key="*this" wx:for-item="TimesArr">
+          <swiper-item>
+            <view class='time_quantum{{choosedIndex == index?" time_quantum_active":""}}' 
+                  wx:for="{{TimesArr.subTime}}" 
+                  wx:key="*this" 
+                  data-index="{{index}}"
+                  wx:for-item="detailTime" 
+                  catchtap='selectTimeChange' 
+                  data-timevalue='{{detailTime.startTime}}-{{detailTime.endTime}}' 
+                  data-alltime='{{detailTime}}'>{{detailTime.startTime}}-{{detailTime.endTime}}</view>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+  </view>
+</view>
+
+
+<!-- 第一次提交订单收集手机个人信息弹框 -->
+<view class='index_wrap_layer' bindtap="buyerlyLayerOut" id="buyerWrapLayer" wx:if="{{buyerLayerShow}}">
+  <view class="order_layer_content">
+    <view class='order_cont_title fs40 colfff'>
+      <text class='disBlock'>您是第一次下单，</text>
+      <text class='disBlock'>请填写以下基本信息：</text>
+    </view>
+    <view class='buyer_info fs32 col666'>
+      <input placeholder='姓名' class="buyer_detail_info" placeholder-style='color: #99A9BF;' value='{{nameValue}}' bindinput="saveName"></input>
+      <view class="buyer_detail_info {{buyerFiy == '买家类型'?' col999':' col333'}}" catchtap='showAction'>{{buyerFiy}}</view>
+      <input placeholder='具体类型' class="buyer_detail_info" placeholder-style='color: #99A9BF;' wx:if="{{isBuyerShow}}" value='{{concreteTypeValue}}' bindinput="saveConcreteValue"></input>
+      <button class='colfff' catchtap='pickPersonInfo'>确定</button>
+    </view>
+  </view>
+</view>
+<!--选择买家类型的朦层  -->
+<view class='picker_layer' wx:if="{{pickLayerShow}}" bindtap="pickerLayerOut" id="pickerly">
+  <view class='picker_layer_content  Layertoappear'>
+    <view class='disFlex_row fs28 opration_picker'>
+      <text catchtap='calcPickLayer'>取消</text>
+      <text catchtap='surePickLayer' style='text-align:right;'>确认</text>
+    </view>
+    <picker-view indicator-style="height: 50px;" style="width:350rpx; height: 150px;margin:0 200rpx;" bindchange="bindChanger">
+      <picker-view-column style="height:900rpx">
+        <view class='picker_view_cont' wx:for="{{buyerClassfiy}}" wx:key="*this" style="line-height: 50px" data-buyvalue="{{item.value}}">{{item.value}}</view>
+      </picker-view-column>
+    </picker-view>
+  </view>
+</view>

@@ -1,0 +1,33 @@
+<view wx:if="{{isLogin}}">
+  <view class="header_info boxSizing disFlex" style="background:#000">
+    <view class="head_portrait disFlex_center" style='overflow:hidden;'>
+      <image mode='aspectFill' src="{{userInfo.avatarUrl}}" style="width:100%;height:100%;"></image>
+    </view>
+    <view class='colfff ml15'>{{userNmae}}</view>
+  </view>
+  <!--收藏的店铺  -->
+  <view class="self_info mt30" style="border-bottom:none;" catchtap='goCollectPage'>
+    <image src="../../images/aboutMe/collect_store.png" class="image_left_icon"></image>
+    <text class="ml_513">收藏</text>
+    <image src="../../images/aboutMe/go_more.png" class="image_right_icon"></image>
+  </view>
+  <!--收藏的商品  -->
+  <view class="self_info self_googs relative" style="border-top:none;">
+    <image src="../../images/aboutMe/collect_goods.png" class="image_left_icon"></image>
+    <text class="ml_435">常用菜单</text>
+    <image src="../../images/aboutMe/go_more.png" class="image_right_icon"></image>
+  </view>
+  <!--个人信息  -->
+  <view class="self_info mt30">
+    <image src="../../images/aboutMe/person_info.png" class="image_left_icon"></image>
+    <text class="ml_459">个人信息</text>
+    <image src="../../images/aboutMe/go_more.png" class="image_right_icon"></image>
+  </view>
+  <!-- 设置 -->
+  <view class="self_info mt30">
+    <image src="../../images/aboutMe/setting.png" class="image_left_icon"></image>
+    <text class="ml_527">设置</text>
+    <image src="../../images/aboutMe/go_more.png" class="image_right_icon"></image>
+  </view>
+  <view class="self_info mt30" bindtap='go_unbundle' hidden='{{!isLoginEr}}'>解绑</view>
+</view>

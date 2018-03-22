@@ -1,0 +1,95 @@
+<!-- 头部搜索 -->
+<view class="searGood_header disFlex_row">
+  <view class="banner_search">
+    <icon type="search" size="20" style='width:50rpx'/>
+    <input placeholder="搜索全部订单" placeholder-style="color:#99a9bf" name='username' bindinput="searchSingleorders" bindconfirm="serchSellerOrder" value="{{input_Value}}" focus style='width:420rpx;'/>
+    <icon type="clear" size="18" color="#c0ccda" style="width:58rpx;" catchtap="clearSerInputVale" hidden="{{!serchOrdertVal}}"/>
+  </view>
+  <image src="../../../images/order/Shape-bxhdpi.png" style="width: 50rpx; height:50rpx;" mode="scaleToFill" class="" catchtap='userScan'></image>
+</view>
+<block wx:if="{{isorderEmpty}}">
+  <scroll-view scroll-y style="height:{{winHeight - 44}}px;" bindscrolltolower="loadMoreData">
+    <!--中间购物车详情  -->
+    <view class="all_detail_box fs28 col333">
+      <block wx:for="{{searchResultArr}}" wx:key="*this" wx:for-item="allMarkArr">
+        <!--  block----------------------->
+        <!--市场的名字  -->
+        <view class="cart_detail_markName Letter_space textCenter">{{allMarkArr.marketName}}</view>
+        <!--店铺  -->
+        <block wx:for="{{allMarkArr.orderList}}" wx:key="*this" wx:for-item="storekArr">
+          <view class="container_seller_box">
+            <view class="seller_box_detail">
+              <!--店铺的名字  -->
+              <view class="seller_nameNum disFlex_single fs28 relative">
+                <view class="col333 Letter_space store_name_only textLeft overEllis" catchtap='forwardCartStore' data-storeitem='{{storekArr.sellerId}}'>{{storekArr.sellerName}}</view>
+                <view class='col37c65c' catchtap='GoOrderDetail' data-myorderid='{{storekArr.orderId}}'>{{storekArr.orderStatusC}}</view>
+              </view>
+              <!-- 店铺里面加入购物车的商品 -->
+              <block wx:for='{{storekArr.pdtDt}}' wx:key="*this" wx:for-item="goodsArr">
+                <view class="cart_store_goods disFlex_single" catchtap='GoOrderDetail' data-myorderid='{{storekArr.orderId}}'>
+                  <image src="{{BasicFontAPI + goodsArr.slideImgs}}" style="width: 188rpx; height:190rpx;" mode="scaleToFill" class="mt30 mr20"></image>
+                  <view class="cart_goods_detail mt30 fs24">
+                    <text class="col666 fs28 disBlock overEllis mb4">{{goodsArr.title}}</text>
+                    <view class="property_goods col888 mb20 fs24 mt10">
+                      <text wx:for='{{goodsArr.otherPropList}}' wx:key="*this" wx:for-item="goodsPointArr">{{goodsPointArr.propvalue}}</text>
+                    </view>
+                    <view class="disFlex_single col333 mb15">
+                      <view class="Letter_space">
+                        <text class="col000">{{goodsArr.price}}</text> 元/{{goodsArr.pdtFormat}}</view>
+                      <view class="cart_list_numRepat disFlex_row">数量：{{goodsArr.orderPdtNum}}</view>
+                    </view>
+                    <view class="colFF6328 fs32">¥{{goodsArr.pdtTotalPrice}}</view>
+                  </view>
+                </view>
+              </block>
+            </view>
+            <!--买家备注：  -->
+            <view class="borderBot_f0f1f1 seller_box_detail buyer_remark overEllis" catchtap='GoOrderDetail' data-myorderid='{{storekArr.orderId}}'>买家备注：
+              <text>{{storekArr.note}}</text>
+            </view>
+            <!--  -->
+            <view class="borderBot_f0f1f1 fs24 seller_box_detail total_price_time" catchtap='GoOrderDetail' data-myorderid='{{storekArr.orderId}}'>
+              <view class="textRight mt15 mb15">共{{storekArr.pdtDt.length}}件 合计:
+                <text class='colFF6328'>¥ </text>
+                <text class='colFF6328 fs32'> {{storekArr.orderPrice}}</text>
+              </view>
+              <view class="textRight relative">
+                <image class='mr20' src="../../../images/order/pickGoodsClock.png" style="width: 32rpx; height:32rpx;position:absolute;top:0rpx;right:350rpx;" mode="scaleToFill"></image>提货时间：{{storekArr.deliveryTime}}</view>
+            </view>
+            <view class="cart_operation_bot fs28 seller_box_detail">
+              <text class='order_manage_info order_info_green fr' wx:if="{{storekArr.orderStatus == 'PICKUPING'}}" catchtap='confirmTakeGoods' data-myorderid='{{storekArr.orderId}}'>确认收货</text>
+              <text class='order_manage_info order_info_green fr' wx:if="{{storekArr.orderStatus == 'ACCEPTING'}}">提醒受理</text>
+              <text class='order_manage_info mr20 fr' wx:if="{{storekArr.orderStatus == 'PICKUPING'}}" catchtap='contactSellerDetail' data-sellerphoner = '{{storekArr.sellerPhone}}'>联系卖家</text>
+              <text class='order_manage_info mr20 fr' wx:if="{{storekArr.orderStatus == 'ACCEPTING'}}" catchtap='calcMyOrder' data-myorderid='{{storekArr.orderId}}'>取消订单</text>
+              <text class='order_manage_info mr20 fr' catchtap='buyAginAccept' data-myorderid='{{storekArr.orderId}}'>再次购买</text>
+            </view>
+            <!--  -->
+          </view>
+        </block>
+        <!-- block-------------- -->
+      </block>
+
+    </view>
+  </scroll-view>
+</block>
+<!--订单为空的情况  -->
+<block wx:else>
+  <!-- <block hidden="{{!isorderEmpty}}"> -->
+  <view class='cart_empty fs32 col333 relative'>
+    <image style="width: 60rpx; height:60rpx;vertical-align:middle;margin-right:10rpx;" mode="scaleToFill" src="/images/goods/order_empty_a.png"></image>
+    <text class='empty_cart_text'>暂时没有相关订单</text>
+  </view>
+</block>
+
+<!--取消订单选择原因的朦层  -->
+<view class='order_wrap_layer' wx:if="{{isCalcOrderWhyShow}}" bindtap="calOrderLayerOut" id="calclayerout">
+  <view class="order_layer_content Layertoappear fs32 col666">
+    <view class="calcWhyOrder textCenter fs36 borderBot_f0f1f1 col333 boxSizing view_layercont">您为什么取消?</view>
+    <block wx:for="{{calcOrderWhyArr}}" wx:key="*this" wx:for-item="calcOrderarr">
+      <block wx:for="{{calcOrderarr}}" wx:key="*this">
+        <view class="borderBot_f0f1f1 textCenter" data-item = '{{item}}' catchtap='chooseCalcReson'>{{item}}</view>
+      </block>
+    </block>
+    <view class="calcWhyOrder textCenter col37c65c" catchtap='calcLayerHide'>取消</view>
+  </view>
+</view>

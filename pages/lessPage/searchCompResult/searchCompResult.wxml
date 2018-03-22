@@ -1,0 +1,175 @@
+<view class="goodStore_header" style="overflow-y:{{is_Overflow}};">
+  <view class='good_fixed_container'>
+    <!-- 头部搜索 -->
+    <view class="searGood_header borderBot_c0ccda bgfff">
+      <view class="banner_search search_Result">
+        <icon type="search" size="20" />
+        <input value="{{searchText}}" placeholder-style="color:#99a9bf" bindfocus="goBackComplete" />
+      </view>
+    </view>
+    <!--tab  -->
+    <view class="swiper-tab fs32 bgfff mb20">
+      <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav" id="left">商品</view>
+      <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">商户</view>
+    </view>
+  </view>
+  <!--商品-------------------筛选市场点击事件  -->
+  <view class='animation' id="animation" bindtap="showDialog" data-statu="close" wx:if="{{isDialogShow}}">
+    <view class='animation-content{{isDialogShow?" goToLeft":""}}' id="animation-content">
+      <view class="banner_search layer_search">
+        <icon type="search" size="20" />
+        <input placeholder="搜索城市、地址或市场" placeholder-style="color: #99A9BF" bindinput="goodsMarktInput_show" value='{{goodMark_inputValue}}' />
+        <icon type="clear" size="15" color="#c0ccda" style="width:58rpx;" catchtap="clearInputGoodsValue" hidden="{{!good_MarkInputValue}}" />
+      </view>
+      <view class="near_mark mt40 relative" bindtap='goodsMarkRefresh'>
+        <text class="col999 fs28">附近市场</text>
+        <view style="width:24rpx; height:30rpx;margin-left:20rpx;top:5rpx;" class="disline_Block absolute">
+          <image class="mark_distance_location" src="../../../images/index/location.png"></image>
+        </view>
+        <text class="col333 fs24 ml15 ml70">华阳</text>
+      </view>
+      <view class="all_mark disFlex_center borRedius8 mt40 fs28 col333" bindtap="all_goodsMarkSelect">全部市场</view>
+      <block wx:for="{{singleMarkArray}}" wx:key="*this">
+        <view class="single_mark fs24 mt20" bindtap="goodsMarkSelectVolume" data-markid="{{item.guid}}" data-marketname="{{item.marketName}}">
+          <view class="single_top col333 disFlex_row">
+            <text class="fs28 overEllis disline_Block" style='width:370rpx;'>{{item.marketName}}</text>
+            <text>{{item.distance}}km</text>
+          </view>
+          <text class="disline_Block overEllis col999" style="width:240rpx;">{{item.address}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+  <swiper current="{{currentTab}}" class="swiper-box" duration="300" bindchange="bindChange" style="height:{{winHeight-100}}px;padding-top:200rpx">
+    <!-- ----------------------------------------商品---------------------------- -->
+    <swiper-item class="bgfff">
+      <view class="search_Result_condition borderBot_c0ccda disFlex_row col999 fs28 search_Result_condition_ma">
+        <view class="padding_left70" bindtap="goodsPriceVolume" id="{{price_sort}}" style="{{goodsSaleColor_price}}">
+          <text class="padding_right20">价格</text>
+          <image src="{{goodsPriceImg}}" class="" style="width:16rpx;height:20rpx;"></image>
+        </view>
+        <view style="{{goodsSaleColor_volume}}" bindtap="goodsSaleVolume" class="padding_left20">销量</view>
+        <view class="padding_right50" bindtap="showDialog" data-statu="open">
+          <text class="padding_right20 goodsMarkCss">{{goodsMarkName}}</text>
+          <image src="../../../images/index/icon/more_market.png" class="" style="width:12rpx;height:22rpx;vertical-align:3rpx;"></image>
+        </view>
+      </view>
+      <block wx:if="{{isgoods}}">
+        <scroll-view scroll-y style="height:{{winHeight-136}}px;padding-top:80rpx;" scroll-y="{{isScroll}}">
+          <!--排序内容  -->
+          <view class="search_Result_content padding_left10">
+            <block wx:for="{{goodSiftArray}}" wx:key="*this">
+                <view class="search_result_li disFlex_only mb10" bindtap='goStoreGoods' data-storegoodsitem="{{item.gpf_product_pid}}">
+                  <image src="{{item.gpf_product_slideimgs}}" style="width: 280rpx; height:280rpx;" mode="scaleToFill" class="mr30"></image>
+                  <view class="search_result_words borderBot_c0ccda">
+                    <text class="fs28 col333 disBlock mb10 overEllis">{{item.gpf_product_title}}</text>
+                    <text class="fs28 col333 disBlock mb10 overEllis">{{item.gpf_product_sellingpoint}}</text>
+                    <view class="property_goods fs24 col666 mb10">
+                      <block wx:for="{{minGoodsiftArray}}" wx:key="*this">
+                        <text>{{item.propvalue}}</text>
+                      </block>
+                    </view>
+                    <view class="mb10 fs28">
+                      <view class="disline_Block overEllis" style='width:222rpx;'>
+                        <text class="colFF6328 fs36">{{item.gpf_product_price}}</text>
+                        <text class="col666"> 元/{{item.gpf_product_pdtformat}}</text>
+                      </view>
+                      <text class="col999 disline_Block overEllis" style='width:198rpx;'> 今日已售 {{item.gpf_product_saleamount}}笔</text>
+                    </view>
+                    <text class="fs24 col999 disBlock mb10 overEllis">产自{{item.gpf_product_sourceplace}}</text>
+                    <view class="fs24 col666">
+                      <text class="disline_Block overEllis" style="width:200rpx;">{{item.marketName}}</text>
+                      <text class="disline_Block overEllis" style="width:200rpx;">{{item.gpf_product_sellername}}</text>
+                    </view>
+                  </view>
+                </view>
+            </block>
+          </view>
+        </scroll-view>
+      </block>
+      <block wx:else>
+        <view class="">
+          <image src="../../../images/goods/none_searchResult.png" style="width: 160rpx; height:160rpx;margin-left:calc(50% - 80rpx);" mode="scaleToFill" class="mt150"></image>
+          <view class="fs28 col666 textCenter mt40">抱歉,暂时没有找到 "{{searchText}}" 的相关结果</view>
+        </view>
+      </block>
+    </swiper-item>
+
+    <!-- --------------------------------商户------------------------------------------------------------ -->
+    <swiper-item class="fs24">
+      <!-- 排序条件 -->
+      <view class="search_Result_condition borderBot_c0ccda disFlex_row col999 fs28 search_Result_condition_ma">
+        <view class="padding_left80" bindtap="storeSaleVolume" style="{{storeSaleColor_volume}}">销量</view>
+        <view class="padding_right50" bindtap="showTwoDialog" data-statur="on">
+          <text class="padding_right20 goodsMarkCss">{{storeMarkName}}</text>
+          <image src="../../../images/index/icon/more_market.png" class="" style="width:12rpx;height:22rpx;vertical-align:1rpx;"></image>
+        </view>
+      </view>
+      <!--商家列表  -->
+      <block wx:if="{{isstore}}">
+        <scroll-view style="height:{{winHeight-133}}px;padding-top:80rpx;" scroll-y="{{isScroll}}">
+          <block wx:for="{{storeSelectArray}}" wx:key="*this">
+            <view class="recommend_cont recommend_merial">
+                <view class="recommend_merial_tit mb30 relative" bindtap='goToStore' data-storeitem="{{item.guid}}">
+                  <image mode="" src="{{item.shopPics}}" style="width: 75rpx; height:75rpx;" mode="scaleToFill" class="mr20"></image>
+                  <view>
+                    <text class="col333 fs30 disBlock overEllis fwBold" style='width:400rpx;'>{{item.sellerName}}</text>
+                    <view class="col999 fs24">
+                      <text class='disline_Block overEllis' style='width:180rpx;'>销量{{item.totalSales}}</text>
+                      <text class='disline_Block overEllis' style='width:260rpx;'>{{item.marketName}}</text>
+                    </view>
+                  </view>
+                  <view class="go_store_Detai fs28">进店</view>
+                </view>
+              <view class="recommend_merial_cont disFlex">
+                <!-- li_1 -->
+                <block wx:for="{{minstoresiftArray}}" wx:key="*this">
+                    <view class="merial_cont_li" bindtap='goStoreGoods' data-storegoodsitem="{{item.pid}}">
+                      <image src="{{item.imgs}}" style="width: 100%; height:100%;" mode="scaleToFill"></image>
+                      <view class="posit_word disFlex_row_around">
+                        <text class="overEllis disline_Block" style='100rpx'>{{item.title}}</text>
+                        <text class="overEllis disline_Block" style='150rpx'>￥{{item.price}}</text>
+                      </view>
+                    </view>
+                </block>
+              </view>
+            </view>
+          </block>
+        </scroll-view>
+      </block>
+      <block wx:else>
+        <view class="">
+          <image src="../../../images/goods/none_searchResult.png" style="width: 160rpx; height:160rpx;margin-left:calc(50% - 80rpx);" mode="scaleToFill" class="mt150"></image>
+          <view class="fs28 col666 textCenter mt40">抱歉,暂时没有找到 "{{searchText}}" 的相关结果</view>
+        </view>
+      </block>
+    </swiper-item>
+  </swiper>
+  <!--商户-------------------筛选市场点击事件  -->
+  <view class='animation' id="animations" bindtap="showTwoDialog" data-statur="off" wx:if="{{isDialogShown}}">
+    <view class='animation-content{{isDialogShown?" goToLeft":""}}' id="animation-contents">
+      <view class="banner_search layer_search">
+        <icon type="search" size="20" />
+        <input placeholder="搜索城市、地址或市场" placeholder-style="color: #99A9BF" bindinput="storesMarktInput_show" value='{{storedMark_inputValue}}' />
+        <icon type="clear" size="15" color="#c0ccda" style="width:58rpx;" catchtap="clearInputstoreValue" hidden="{{!store_MarkInputValue}}" />
+      </view>
+      <view class="near_mark mt40 relative" bindtap='storeMarkRefresh'>
+        <text class="col999 fs28">附近市场</text>
+        <view style="width:24rpx; height:30rpx;margin-left:20rpx;top:5rpx;" class="disline_Block absolute">
+          <image class="mark_distance_location" src="../../../images/index/location.png"></image>
+        </view>
+        <text class="col333 fs24 ml15 ml70">华阳</text>
+      </view>
+      <view class="all_mark disFlex_center borRedius8 mt40 fs28 col333" bindtap="all_storeMarkSelect">全部市场</view>
+      <block wx:for="{{singleMarkArray}}" wx:key="*this">
+        <view class="single_mark fs24 mt20" bindtap="storeMarkSelectVolume" data-markid="{{item.guid}}" data-marketname="{{item.marketName}}">
+          <view class="single_top col333 disFlex_row">
+            <text class="fs28 overEllis disline_Block" style='width:370rpx;'>{{item.marketName}}</text>
+            <text>{{item.distance}} km</text>
+          </view>
+          <text class="disline_Block overEllis col999" style="width:240rpx;">{{item.address}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

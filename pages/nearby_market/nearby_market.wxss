@@ -1,0 +1,37 @@
+@import "../index/index.wxss"
+page{
+  background: #f0f1f1;
+}
+.recommend{
+  height: auto;
+}
+.searGood_header{
+  height:96rpx;
+  background:#fff;
+  width:100%;
+  box-sizing:border-box;
+  padding:0 48rpx 0 22rpx;
+  box-shadow:0 2px 2px 0 rgba(0, 0, 0, 0.12);
+}
+.locationg{
+  width:100rpx;
+}
+.banner_search{
+  background:#E6EFF8;
+  width:560rpx;
+  height:56rpx;
+  box-sizing:border-box;
+  position:relative;
+  top:0;
+  left:0;
+} 
+.banner_search input{
+  border-radius: 6rpx;
+}
+.recommend_near{
+  height:165rpx;
+  margin-top:20rpx;
+  background:#fff;
+  border-bottom:1rpx solid #D9E0E9;
+  border-top:1rpx solid #D9E0E9;
+}

@@ -1,0 +1,337 @@
+@import "../../utils/wetoast.wxss";
+.container{
+    font-family: '微软雅黑';
+    font-family: 26rpx;
+}
+/*头部*/
+.head{
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    height: 100rpx;
+    line-height: 100rpx ;
+    background-color: #F6F6F6;
+    cursor: pointer;
+    border-bottom: 2rpx solid #E0E0E0;
+    padding-bottom: 1rpx;
+}
+.head-li{
+    float: left;
+    width: 21%;
+    color: #676767;
+    font-size: 32rpx;
+    text-align: center
+}
+.head-text{
+    color: #676767;
+    display: inline-block;
+}
+.head-color{
+    color: #00CA85 !important;
+    border-bottom: 2rpx solid #00CA85!important;
+}
+.edit-btn{
+    color: #676767;
+    font-size: 32rpx;
+    position: absolute;
+    top: 0;
+    right: 30rpx;
+    padding: 0 20rpx;
+    padding-left:60rpx;
+}
+.edit-btn-before::before{
+    content:'';
+    display: inline-block;
+    width: 60rpx;
+    height: 60rpx;
+    background: url(http://weidian.51vfang.com/Public/web/default/images/red.png) center no-repeat;
+    background-size: 60% auto;
+    position:absolute;
+    left:0;
+    top:20rpx;
+}
+/*头部*/
+/*首页按钮*/
+.float-box{
+    display: inline-block;
+    width: 88rpx;
+    height: 88rpx;
+    background: url(http://weidian.51vfang.com/Public/web/default/images/backindex-new.png) center no-repeat;
+    background-size: 100%  auto;
+    position: fixed;
+    bottom: 100rpx;
+    right: 40rpx;
+}
+/*首页按钮*/
+/*底部*/
+.footer{
+    position: fixed;
+    bottom: 0;
+    height: 90rpx;
+    line-height: 90rpx;
+    border-top: 2rpx solid #E0E0E0;
+    width: 100%;
+    font-size: 28rpx;
+    background: white;
+}
+.allchoose-btn{
+    position: absolute;
+    left: 20rpx;
+    color: #676767;
+    padding-left:60rpx;
+
+}
+.choosed-before::before{
+    content:'';
+    display: inline-block;
+    width: 60rpx;
+    height: 60rpx;
+    background: url(http://weidian.51vfang.com/Public/web/default/images/hui_icon.png) center no-repeat;
+    background-size: 60% auto;
+    vertical-align: middle;
+    background-position: 10rpx 10rpx;
+    position: absolute;
+    top: 19rpx;
+    left: 0;
+}
+.chooseing-before::before{
+    content:'';
+    display: inline-block;
+    width: 60rpx;
+    height: 60rpx;
+    background: url(http://weidian.51vfang.com/Public/web/default/images/red.png) center no-repeat;
+    background-size: 60% auto;
+    vertical-align: middle;
+    background-position: 10rpx 10rpx;
+    position: absolute;
+    top: 19rpx;
+    left: 0;
+}
+.delete-btn{
+    position: absolute;
+    right: 40rpx;
+    top: 20rpx;
+    color: white;
+    background: #ff3728;
+    /*padding: 40rpx;*/
+    display: inline-block;
+    height: 55rpx;
+    line-height: 55rpx;
+    padding: 0 30rpx;
+    border-radius: 6rpx;
+}
+/*底部*/
+/*列表*/
+.list-con{
+    padding-top:100rpx;
+}
+.list-container{
+    display: -webkit-box;
+    padding-top: 20rpx;
+    background: #fff;
+    border-bottom: 1rpx solid #f2f2f2;
+    padding-bottom: 20rpx;
+    overflow: hidden;
+}
+.item-infoa{
+  -webkit-box-flex: 1;
+    max-width: 97%
+}
+.item-con{
+ -webkit-box-flex: 1;
+ max-width: 90%
+}
+.item-choose{
+    position: relative;
+    display: -webkit-box;
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+}
+.list-choose{
+    width: 60rpx;
+    height: 60rpx;
+    background: url(http://weidian.51vfang.com/Public/web/default/images/hui_icon.png) center no-repeat;
+    background-size: 60% auto;
+    vertical-align: middle;
+    background-position: 10rpx 10rpx;
+}
+.list-chooseing{
+    width: 60rpx;
+    height: 60rpx;
+    background: url(http://weidian.51vfang.com/Public/web/default/images/red.png) center no-repeat;
+    background-size: 60% auto;
+    vertical-align: middle;
+    background-position: 10rpx 10rpx;
+    margin-top: 60%
+}
+.item-img{
+    width: 30%;
+    height: 140rpx;
+    border-radius: 3px;
+    overflow: hidden;
+    float: left;
+    margin: 10rpx 20rpx 0 20rpx;
+    position: relative;
+}
+.item-img image{
+    width: 100%;
+    height: 100%;
+}
+.p-title{
+    font-size: 30rpx;
+    font-weight: 300;
+    max-width: 90%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #333;
+    padding-top:5rpx; 
+    padding-bottom: 10rpx;
+}
+.p-wrap{
+    display: -webkit-box;
+    max-width:90%;
+    padding-top: 5rpx;
+    padding-bottom: 5rpx;
+    font-size: 24rpx;
+}
+.p-wrap-addr{
+    color: #929292;
+    font-size: 24rpx;
+}
+.p-wrap-money{
+    -webkit-box-flex: 1;
+    text-align: right;
+    font-size: 28rpx;
+    color: #ff3728
+}
+.p-wrap-price{
+   color: #929292;
+    -webkit-box-flex: 1;
+    text-align: right;
+}
+.p-wrap-area{
+     color: #929292;
+}
+.tj-text{
+    display: inline-block;
+    width: auto;
+    line-height: 22rpx;
+    font-size: 22rpx;
+    margin-right: 10rpx;
+    padding: 6rpx;
+    text-align: center;
+    box-sizing: content-box;
+    border-radius: 4rpx;
+    margin-top: 4rpx;
+}
+.blue{
+    border: 1px solid #3bbcff;
+    color: #3bbcff;
+}
+ .green {
+    border: 1px solid #00d381;
+    color: #00d381;
+}
+.red {
+    border: 1px solid #ff8656;
+    color: #ff8656;
+}
+.collect-empty{
+    display: block;
+    width: 228rpx;
+    height: 120rpx;
+    background: url(http://weidian.51vfang.com/Public/web/default/images/collect-empty.png) center no-repeat;
+    background-size: 100% auto;
+    margin: 0 auto
+}
+.no-data{
+    position: absolute;
+    top: 43%;
+    left: 50%;
+    transform: translate(-50%,-30%);
+}
+.nodata-txt{
+    text-align: center;
+    color: #bbb;
+    padding-top: 10rpx;
+    font-size: 26rpx;
+}
+.agent-left image{
+    width: 100%;
+}
+.agent-left{
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+    overflow: hidden;
+    float: left;
+    margin-left:20rpx;
+
+}
+.agent-con{
+    background: #fff;
+    overflow: hidden;
+    padding-top: 30rpx;
+    display: -webkit-box;
+}
+.agent-m{
+    -webkit-box-flex: 1;
+    overflow: hidden;
+}
+.agent-list{
+    overflow: hidden;
+    font-size: 26rpx;
+}
+.weixin{
+   display: inline-block;
+    width: 70rpx;
+    height: 70rpx;
+    margin-right:30rpx;
+    background: url(http://weidian.51vfang.com/Public/web/default/images/weixin.png) center no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    left: 0
+}
+.tel{
+    display: inline-block;
+    width: 70rpx;
+    height: 70rpx;
+    background: url(http://weidian.51vfang.com/Public/web/default/images/phone.png) center no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    right: 0;
+    top:0;
+    bottom:0;
+    margin:auto;
+
+}
+.agent-addr{
+    color: #666;
+    font-size: 24rpx;
+    padding-top: 20rpx;
+    max-width: 380rpx;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.agent-middle{
+    float: left;
+}
+.agent-right{
+    float: right;
+    width:180rpx;
+    height:90rpx;
+    position: relative
+
+}
+.agent-list-middle{
+    float: left;
+    border-bottom: 2rpx solid #e6e6e6;
+    padding-bottom: 30rpx;
+    overflow: hidden;
+    margin-left: 40rpx;
+    width: 75%;
+}

@@ -1,0 +1,76 @@
+/* @import "../../logs/logs.wxss" */
+.a{}
+.login_container{
+  width:100%;
+  box-sizing: border-box;
+  padding:100rpx 35rpx 0 35rpx;
+}
+.message_borB input{
+  height:100%;
+  padding-top:30rpx;
+  box-sizing:border-box;
+  width:80%;
+
+}
+.message_borB{
+  border-bottom : 1rpx solid #D9E0E9;
+  box-sizing: border-box;
+  font-size: 36rpx;
+  height: 100rpx;
+  padding-left:20rpx;
+}
+.plac_class{
+  color:#C0CCDA;
+}
+.page_hd{
+    padding: 50rpx 50rpx 50rpx 50rpx;
+    text-align: center;
+}
+
+.register{
+  background: #475669!important;
+}
+.register_first[type="default"] {
+  color:#FFFFFF;
+  border-radius: 4rpx;
+  background-color:#475669!important;
+}
+.forget_password{
+  height:120rpx;
+}
+.forget_password text{
+  float:right;
+  margin-top:20rpx;
+}
+.greenCode{
+  color:#37c65c;
+}
+.grayCode{
+  color:#C0CCDA!important;
+}
+.verification_code{
+  position: absolute;
+  right:30rpx;
+  bottom:16rpx;
+}
+
+.register_next{
+  margin-top:260rpx;
+}
+
+
+.gray{
+  background:#C0CCDA!important;
+}
+.nextBtn{
+  width:680rpx;
+  height: 96rpx;
+  line-height: 96rpx;
+  color:#ffffff;
+  font-size: 36rpx;
+  text-align: center;
+  border-radius: 5px;
+}
+.green{
+  background:#37C65C;
+}

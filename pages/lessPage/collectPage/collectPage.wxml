@@ -1,0 +1,103 @@
+<view>
+  <!--商品,商户的切换 -->
+  <view class="fixedbox">
+    <view class="swiper-tab">
+      <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">商品</view>
+      <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">商户</view>
+    </view>
+    <text class='col37c65c fs32' catchtap='adminiFun' wx-if="{{isEdit}}">管理</text>
+    <text class='col37c65c fs32' catchtap='adminiFun' wx-if="{{!isEdit}}">完成</text>
+  </view>
+  <swiper current="{{currentTab}}" class="swiper-box" duration="300" style="height:{{winHeight}}px;padding-bottom:{{isEdit?'0':'102rpx'}}" bindchange="bindChange">
+    <swiper-item>
+      <!--不为空的情况  -->
+      <block wx:if="{{isorderEmpty}}">
+        <scroll-view class='cart_all_detail' style="height:{{isEdit? '535px':'485px'}} " scroll-y>
+          <block wx:for='{{collectListArr}}' wx:key="*this" wx:for-item="collectArr">
+            <view class="collect_box_li fs24 col333 disFlex_row" style="padding-left:{{isEdit?'80rpx':'20rpx'}}" hidden='{{collectArr.isEffect}}'>
+              <icon wx:if="{{!isEdit}}" type="circle" size='20' class="cart_select" />
+              <image src="{{BasicFontAPI + collectArr.img}}" style="width: 168rpx; height:168rpx;" mode="scaleToFill" class="collect_goods_pic"></image>
+              <view class="collect_rest_word">
+                <text class="fs28 disBlock mb10 overEllis">{{collectArr.title}}</text>
+                <text class="fs28 disBlock mb10 overEllis">{{collectArr.sellingpoint}}</text>
+                <view class="property_goods col666 mb10">
+                  <text wx:for="{{collectArr.otherPropList}}" wx:key="*this">{{item.propvalue}}</text>
+                </view>
+                <view class="mb10 overEllis">
+                  <text class="colFF6328 fs36">¥{{collectArr.price}}</text>
+                  <text class="col666"> /{{collectArr.pdtFormat}} </text>
+                  <text class="col999"> 今日已售 {{collectArr.pdtSaleAmount}} 笔</text>
+                </view>
+              </view>
+            </view>
+            <!-- 失效的商品 -->
+            <view class="collect_box_li fs24 col333 disFlex_row" style="padding-left:6rpx" hidden='{{!collectArr.isEffect}}'>
+              <view class='lossEfficacy fs24 colfff'>失效</view>
+              <image src="{{BasicFontAPI + collectArr.img}}" style="width: 168rpx; height:168rpx;" mode="scaleToFill" class="collect_goods_pic"></image>
+              <view class="collect_rest_word">
+                <text class="fs28 disBlock mb10 overEllis col999">{{collectArr.title}}</text>
+                <view class="property_goods col333 mb20 fs24 mt10">商品已不能购买，请联系卖家</view>
+                <view class="property_goods fs28 property_goods_del">
+                  <text class='colFF6328' catchtap='delEfficacyGoods' data-guidid="{{goodsArr.guid}}">删除</text>
+                </view>
+              </view>
+            </view>
+            <!--  -->
+          </block>
+        </scroll-view>
+      </block>
+      <!--为空的情况  -->
+      <block wx:else>
+        <view class='cart_empty fs32 col999 relative'>
+          <image style="width: 60rpx; height:60rpx;vertical-align:middle;margin-right:10rpx;" mode="scaleToFill" src="/images/goods/order_empty_a.png"></image>
+          <text class='empty_cart_text'>您还没有收藏的商品哦!</text>
+        </view>
+      </block>
+    </swiper-item>
+    <!-- 2 -->
+    <swiper-item>
+      <block wx:if="{{isorderEmpty}}" wx:key="*this">
+        <scroll-view class='cart_all_detail' style="height:{{isEdit? '535px':'485px'}} " scroll-y>
+          <block wx:for='{{collectListArr}}' wx:key="*this" wx:for-item="collectstoreArr">
+            <view class="collect_merial_tit disFlex" style="padding-left:{{isEdit?'80rpx':'20rpx'}}">
+              <view wx:if="{{!isEdit}}">
+                <icon wx:if="{{collectstoreArr.selected}}" type="success" color="#37C65C" bindtap="selectList" data-index="{{index}}" class='mr20 cart_select' size='20' />
+                <icon wx:else type="circle" bindtap="selectList" data-index="{{index}}" class='mr20 cart_select' size='20' />
+              </view>
+              <image src="{{BasicFontAPI + collectstoreArr.picstr}}" style="width: 106rpx; height:106rpx;" mode="scaleToFill" class="mr20"></image>
+              <view class='collect_worder_box fs24 col999'>
+                <text class="col333 fs32 disBlock overEllis">{{collectstoreArr.sellerName}}</text>
+                <text class="disBlock mt5 overEllis">销量{{collectstoreArr.saleAmount}}  {{collectstoreArr.marketName}}</text>
+                <view class="store_evalute">
+                  店铺评价：
+                  <block wx:for="{{starListArr}}" wx:key="*this">
+                    <image src="/images/index/store/store_evalue.png" style="width:24rpx; height:24rpx;margin-right:4rpx;"></image>
+                  </block>
+                </view>
+              </view>
+              <view class="goin_store_Detai fs28" wx:if="{{isEdit}}" data-storeitem="{{collectstoreArr.sellerId}}" catchtap='forwardCartStore'>进店</view>
+            </view>
+          </block>
+        </scroll-view>
+      </block>
+      <!--为空的情况  -->
+      <block wx:else>
+        <view class='cart_empty fs32 col999 relative'>
+          <image style="width: 60rpx; height:60rpx;vertical-align:middle;margin-right:10rpx;" mode="scaleToFill" src="/images/goods/order_empty_a.png"></image>
+          <text class='empty_cart_text'>您还没有收藏的店铺哦!</text>
+        </view>
+      </block>
+    </swiper-item>
+  </swiper>
+  <view class="cart_operation_bot disFlex relative cart_cart_operation_bot" wx:if="{{!isEdit}}">
+    <view class="select_all disFlex_row_around fs28 col999">
+      <view class="total_icon_contain">
+        <icon wx:if="{{selectAllStatus}}" type="success" color="#37C65C" bindtap="selectAll" />
+        <icon wx:else type="circle" bindtap="selectAll" />
+      </view>
+      <text>全选</text>
+    </view>
+    <view class="is_order_form" wx-if="{{!isEdit}}"></view>
+    <view class="place_on_order fs28 colfff Letter_space bacKRed absolte_bottom_price" catchtap='deleteGoods'>取消收藏({{2}})</view>
+  </view>
+</view>

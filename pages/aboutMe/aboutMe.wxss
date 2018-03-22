@@ -1,0 +1,56 @@
+page{
+  background:#f0f1f1;
+}
+.header_info{
+  width:750rpx;
+  height: 260rpx;
+  padding:0 80rpx 0 40rpx;
+}
+.head_portrait{
+  width:150rpx;
+  height:150rpx;
+  border-radius: 50%;
+  box-sizing: border-box;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#E6EFF8;
+  border:2px solid #FFFFFF;
+}
+.binding{
+  width:250rpx;
+  height:88rpx;
+  border: 1px solid #FFFFFF;
+  border-radius: 2px;
+}
+.self_info{
+  height:94rpx;
+  padding:0 30rpx;
+  background: #FFFFFF;
+  border-top:1rpx solid #D9E0E9;
+  box-shadow: inset 0 0 0 0 #D9E0E9;
+  border-bottom:1rpx solid #D9E0E9;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size:32rpx;
+  color:#333;
+}
+.image_left_icon{
+  width:58rpx;
+  height:58rpx;
+}
+.image_right_icon{
+  width:16rpx;
+  height:25rpx;
+}
+.self_googs:before{
+  position:absolute;
+  right:0rpx;
+  top:2rpx;
+  content:'';
+  width:720rpx;
+  height:1rpx;
+  background:#D9E0E9;
+}
